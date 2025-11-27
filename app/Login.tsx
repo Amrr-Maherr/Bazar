@@ -4,7 +4,10 @@ import {
   Text,
   TextInput,
   Pressable,
-  Image,
+    Image,
+KeyboardAvoidingView,
+    ScrollView,
+  Platform
 } from "react-native";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -12,92 +15,104 @@ import { useState } from "react";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
-  return (
-    <View style={style.container}>
-      {/* Back Button */}
-      <View style={style.backWrapper}>
-        <Pressable style={style.backBtn}>
-          <AntDesign name="arrow-left" size={22} color="#000" />
-        </Pressable>
-      </View>
+    return (
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: "#fff" }}
+        behavior={Platform.OS === "ios" ? "padding" : "padding"}
+      >
+        <View style={style.container}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            {/* Back Button */}
+            <View style={style.backWrapper}>
+              <Pressable style={style.backBtn}>
+                <AntDesign name="arrow-left" size={22} color="#000" />
+              </Pressable>
+            </View>
 
-      {/* Header */}
-      <View style={style.header}>
-        <Text style={style.title}>Welcome Back 👋</Text>
-        <Text style={style.description}>Sign to your account</Text>
-      </View>
+            {/* Header */}
+            <View style={style.header}>
+              <Text style={style.title}>Welcome Back 👋</Text>
+              <Text style={style.description}>Sign to your account</Text>
+            </View>
 
-      {/* Email */}
-      <View style={style.inputWrapper}>
-        <Text style={style.label}>Email</Text>
-        <TextInput style={style.input} placeholder="Your email" />
-      </View>
+            {/* Email */}
+            <View style={style.inputWrapper}>
+              <Text style={style.label}>Email</Text>
+              <TextInput style={style.input} placeholder="Your email" />
+            </View>
 
-      {/* Password */}
-      <View style={style.inputWrapper}>
-        <Text style={style.label}>Password</Text>
-        <View style={style.passwordWrapper}>
-          <TextInput
-            style={[style.input, { flex: 1 }]}
-            placeholder="Your password"
-            secureTextEntry={!showPassword}
-          />
-          <Pressable
-            onPress={() => setShowPassword(!showPassword)}
-            style={style.eyeBtn}
-          >
-            <Ionicons
-              name={showPassword ? "eye-off" : "eye"}
-              size={20}
-              color="#777"
-            />
-          </Pressable>
+            {/* Password */}
+            <View style={style.inputWrapper}>
+              <Text style={style.label}>Password</Text>
+              <View style={style.passwordWrapper}>
+                <TextInput
+                  style={[style.input, { flex: 1 }]}
+                  placeholder="Your password"
+                  secureTextEntry={!showPassword}
+                />
+                <Pressable
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={style.eyeBtn}
+                >
+                  <Ionicons
+                    name={showPassword ? "eye-off" : "eye"}
+                    size={20}
+                    color="#777"
+                  />
+                </Pressable>
+              </View>
+            </View>
+
+            {/* Forgot Password */}
+            <Pressable style={style.forgotWrapper}>
+              <Text style={style.forgotText}>Forgot password?</Text>
+            </Pressable>
+
+            {/* Create Account */}
+            <View style={style.createWrapper}>
+              <Text style={style.smallText}>Don’t have an account? </Text>
+              <Pressable>
+                <Text style={style.createText}>Create Account</Text>
+              </Pressable>
+            </View>
+
+            {/* Login Button */}
+            <Pressable style={style.loginBtn}>
+              <Text style={style.loginText}>Login</Text>
+            </Pressable>
+
+            {/* Divider: Or Continue With */}
+            <View style={style.dividerWrapper}>
+              <View style={style.line} />
+              <Text style={style.dividerText}>Or continue with</Text>
+              <View style={style.line} />
+            </View>
+
+            {/* Google Button */}
+            <Pressable style={style.googleBtn}>
+              <Image
+                source={require("../assets/images/Google_icon.png")}
+                style={{ width: 20, height: 20, marginRight: 10 }}
+              />
+              <Text style={style.socialText}>Continue with Google</Text>
+            </Pressable>
+
+            {/* Apple Button */}
+            <Pressable style={style.appleBtn}>
+              <FontAwesome
+                name="apple"
+                size={22}
+                color="black"
+                style={style.icon}
+              />
+              <Text style={[style.socialText, { color: "black" }]}>
+                Continue with Apple
+              </Text>
+            </Pressable>
+          </ScrollView>
         </View>
-      </View>
-
-      {/* Forgot Password */}
-      <Pressable style={style.forgotWrapper}>
-        <Text style={style.forgotText}>Forgot password?</Text>
-      </Pressable>
-
-      {/* Create Account */}
-      <View style={style.createWrapper}>
-        <Text style={style.smallText}>Don’t have an account? </Text>
-        <Pressable>
-          <Text style={style.createText}>Create Account</Text>
-        </Pressable>
-      </View>
-
-      {/* Login Button */}
-      <Pressable style={style.loginBtn}>
-        <Text style={style.loginText}>Login</Text>
-      </Pressable>
-
-      {/* Divider: Or Continue With */}
-      <View style={style.dividerWrapper}>
-        <View style={style.line} />
-        <Text style={style.dividerText}>Or continue with</Text>
-        <View style={style.line} />
-      </View>
-
-      {/* Google Button */}
-      <Pressable style={style.googleBtn}>
-        <Image
-          source={require("../assets/images/Google_icon.png")}
-          style={{ width: 20, height: 20, marginRight: 10 }}
-        />
-        <Text style={style.socialText}>Continue with Google</Text>
-      </Pressable>
-
-      {/* Apple Button */}
-      <Pressable style={style.appleBtn}>
-        <FontAwesome name="apple" size={22} color="black" style={style.icon} />
-        <Text style={[style.socialText, { color: "black" }]}>
-          Continue with Apple
-        </Text>
-      </Pressable>
-    </View>
-  );
+      </KeyboardAvoidingView>
+    );
 }
 
 const style = StyleSheet.create({
