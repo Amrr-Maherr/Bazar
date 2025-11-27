@@ -65,7 +65,9 @@ export default function Onboarding() {
           ]}
           onPress={() => console.log("Continue pressed")}
         >
-          <Text style={styles.buttonText}>Continue</Text>
+          <Text style={styles.buttonText}>
+            {currentIndex !== 1 ? "Continue" : " Get Started"}
+          </Text>
         </Pressable>
 
         <Pressable
