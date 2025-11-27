@@ -11,10 +11,11 @@ KeyboardAvoidingView,
 } from "react-native";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useRouter } from "expo-router";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-
+    const [showPassword, setShowPassword] = useState(false);
+     const router = useRouter();
     return (
       <KeyboardAvoidingView
         style={{ flex: 1, backgroundColor: "#fff" }}
@@ -24,7 +25,7 @@ export default function Login() {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             {/* Back Button */}
             <View style={style.backWrapper}>
-              <Pressable style={style.backBtn}>
+              <Pressable style={style.backBtn} onPress={() => router.back()}>
                 <AntDesign name="arrow-left" size={22} color="#000" />
               </Pressable>
             </View>
@@ -71,7 +72,7 @@ export default function Login() {
             {/* Create Account */}
             <View style={style.createWrapper}>
               <Text style={style.smallText}>Don’t have an account? </Text>
-              <Pressable>
+              <Pressable onPress={() => router.push("/SignUp")}>
                 <Text style={style.createText}>Create Account</Text>
               </Pressable>
             </View>

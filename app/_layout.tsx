@@ -50,7 +50,10 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName="Login" screenOptions={{ headerShown: false }}>
+      <Stack
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false, animation: "slide_from_right" }}
+      >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="Splash" />
         <Stack.Screen name="Onboarding" />

@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useRouter } from "expo-router";
 
 export default function SignUp() {
-  const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+     const router = useRouter();
 
   return (
     <KeyboardAvoidingView
@@ -23,7 +25,7 @@ export default function SignUp() {
         <View style={style.container}>
           {/* Back Button */}
           <View style={style.backWrapper}>
-            <Pressable style={style.backBtn}>
+            <Pressable style={style.backBtn} onPress={() => router.back()}>
               <AntDesign name="arrow-left" size={22} color="#000" />
             </Pressable>
           </View>
@@ -76,7 +78,7 @@ export default function SignUp() {
           {/* Already have account */}
           <View style={style.createWrapper}>
             <Text style={style.smallText}>Already have an account? </Text>
-            <Pressable>
+            <Pressable onPress={() => router.push("/Login")}>
               <Text style={style.createText}>Login</Text>
             </Pressable>
           </View>

@@ -1,4 +1,5 @@
 import { SliderData } from "@/Data/Slider";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -14,12 +15,13 @@ const { width } = Dimensions.get("window");
 
 export default function Onboarding() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const router = useRouter();
   return (
     <View style={styles.container}>
       {/* Skip Button */}
       <Pressable
         style={styles.skipContainer}
-        onPress={() => console.log("Skip pressed")}
+        onPress={() => router.push("/Login")}
       >
         <Text style={styles.skipText}>Skip</Text>
       </Pressable>
@@ -63,7 +65,7 @@ export default function Onboarding() {
             styles.primaryButton,
             pressed && { opacity: 0.7 },
           ]}
-          onPress={() => console.log("Continue pressed")}
+          onPress={() => router.push("/Login")}
         >
           <Text style={styles.buttonText}>
             {currentIndex !== 1 ? "Continue" : " Get Started"}
@@ -75,7 +77,7 @@ export default function Onboarding() {
             styles.secondaryButton,
             pressed && { opacity: 0.7 },
           ]}
-          onPress={() => console.log("Sign In pressed")}
+          onPress={() => router.push("/Login")}
         >
           <Text style={styles.secondaryButtonText}>Sign In</Text>
         </Pressable>
