@@ -148,6 +148,11 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     alignItems: "center",
     marginBottom: 15,
+    elevation: 5,
+    shadowRadius: 1,
+    shadowColor: "black",
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.4,
   },
   buttonText: {
     color: "#fff",
@@ -155,6 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   secondaryButton: {
+    elevation: 2,
     backgroundColor: "#fff",
     width: "100%",
     paddingVertical: 14,

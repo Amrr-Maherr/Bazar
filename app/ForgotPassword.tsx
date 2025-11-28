@@ -146,6 +146,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 25,
+    elevation: 5,
   },
 
   loginText: {
