@@ -1,18 +1,10 @@
+import { BookDetails } from '@/Types/BookDetails';
 import axios, { AxiosError } from 'axios';
 
 // Define the props for the hook
 // WORK_ID is optional because the function can handle missing IDs
 type BookDetailsProp = {
     WORK_ID?: string;
-};
-
-// Define the structure of the book details returned by Open Library API
-type BookDetails = {
-    title: string; // Book title
-    description?: string | { value: string }; // Description can be string or object with value
-    subjects?: string[]; // List of subjects/categories
-    covers?: number[]; // List of cover image IDs
-    authors?: { author: { key: string } }[]; // List of authors with their keys
 };
 
 // Async function to fetch book details using the WORK_ID
