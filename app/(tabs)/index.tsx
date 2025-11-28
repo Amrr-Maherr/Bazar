@@ -1,10 +1,12 @@
-import { useNavigation, useRouter} from 'expo-router';
-import { useLayoutEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation, useRouter } from "expo-router";
+import { useLayoutEffect } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
 export default function TabOneScreen() {
   const navigation = useNavigation();
-  const Router = useRouter()
+  const Router = useRouter();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Home",
@@ -12,31 +14,18 @@ export default function TabOneScreen() {
       headerRight: () => (
         <Pressable
           onPress={() => Router.push("/Notification")}
-          style={{ marginRight: 15 }}
+          style={styles.headerRight}
         >
-          <View
-            style={{
-              position: "absolute",
-              width: 10,
-              height: 10,
-              backgroundColor: "#EF5A56",
-              borderRadius: 999,
-              zIndex: 10,
-              right: 0,
-            }}
-          ></View>
-          <Ionicons
-            name="notifications"
-            size={24}
-            color="#121212"
-            style={{ position: "relative" }}
-          />
+          <View style={styles.outerDot}>
+            <View style={styles.innerDot} />
+          </View>
+          <Ionicons name="notifications" size={24} color="#121212" />
         </Pressable>
       ),
       headerLeft: () => (
         <Pressable
           onPress={() => Router.push("/Search")}
-          style={{ marginLeft: 15 }}
+          style={styles.headerLeft}
         >
           <Ionicons name="search" size={24} color="#121212" />
         </Pressable>
@@ -47,6 +36,7 @@ export default function TabOneScreen() {
       },
     });
   }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home</Text>
@@ -57,17 +47,42 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor:"white"
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
+  },
+
+  headerRight: {
+    marginRight: 15,
+  },
+  headerLeft: {
+    marginLeft: 15,
+  },
+  outerDot: {
+    position: "absolute",
+    width: 15,
+    height: 15,
+    backgroundColor: "#fff",
+    borderRadius: 999,
+    right: 0,
+    top: -5,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  },
+  innerDot: {
+    width: 10,
+    height: 10,
+    backgroundColor: "#EF5A56",
+    borderRadius: 999,
   },
 });
