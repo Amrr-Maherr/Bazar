@@ -65,7 +65,10 @@ export default function Login() {
             </View>
 
             {/* Forgot Password */}
-            <Pressable style={style.forgotWrapper}>
+            <Pressable
+              style={style.forgotWrapper}
+              onPress={() => router.push("/ForgotPassword")}
+            >
               <Text style={style.forgotText}>Forgot password?</Text>
             </Pressable>
 
