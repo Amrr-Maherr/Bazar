@@ -4,18 +4,17 @@ import axios, { AxiosError } from 'axios';
 // Define the props for the hook
 // WORK_ID is optional because the function can handle missing IDs
 type BookDetailsProp = {
-    WORK_ID?: string;
+    Query?: string;
 };
 
 // Async function to fetch book details using the WORK_ID
-const useBookDetails = async ({ WORK_ID }: BookDetailsProp): Promise<BookDetails | null> => {
+const useBookDetails = async ({ Query }: BookDetailsProp): Promise<BookDetails | null> => {
     // Return null immediately if no WORK_ID is provided
-    if (!WORK_ID) return null;
+    if (!Query) return null;
 
     try {
         // Make GET request to Open Library API for the specified book work
-        const response = await axios.get<BookDetails>(`https://openlibrary.org/works/${WORK_ID}.json`);
-
+        const response = await axios.get<BookDetails>(`https://gutendex.com/books?search=${Query}`);
         // Return the data from the API response
         return response.data;
     } catch (error) {
