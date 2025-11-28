@@ -1,0 +1,103 @@
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
+} from "react-native";
+
+export default function Profile() {
+  return (
+    <ScrollView style={styles.container}>
+      {/* User Info */}
+      <View style={styles.userInfo}>
+        <Image
+          source={{ uri: "https://i.pravatar.cc/150?img=12" }}
+          style={styles.avatar}
+        />
+        <Text style={styles.name}>Amr Maher</Text>
+        <Text style={styles.email}>amrr.maherr24@gmail.com</Text>
+      </View>
+
+      {/* Options */}
+      <View style={styles.options}>
+        <Pressable style={styles.optionBtn}>
+          <Text style={styles.optionText}>Edit Profile</Text>
+        </Pressable>
+
+        <Pressable style={styles.optionBtn}>
+          <Text style={styles.optionText}>My Orders</Text>
+        </Pressable>
+
+        <Pressable style={styles.optionBtn}>
+          <Text style={styles.optionText}>Favorites</Text>
+        </Pressable>
+
+        <Pressable style={styles.optionBtn}>
+          <Text style={styles.optionText}>Settings</Text>
+        </Pressable>
+
+        <Pressable style={[styles.optionBtn, styles.logoutBtn]}>
+          <Text style={[styles.optionText, { color: "#fff" }]}>Logout</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+
+  userInfo: {
+    alignItems: "center",
+    paddingVertical: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 15,
+  },
+
+  name: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#111",
+  },
+
+  email: {
+    fontSize: 16,
+    color: "#555",
+    marginTop: 4,
+  },
+
+  options: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+
+  optionBtn: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+
+  optionText: {
+    fontSize: 16,
+    color: "#111",
+  },
+
+  logoutBtn: {
+    backgroundColor: "#54408C",
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 20,
+  },
+});

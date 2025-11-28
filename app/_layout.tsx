@@ -49,9 +49,9 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
-        initialRouteName="Splash"
+        initialRouteName="(tabs)"
         screenOptions={{ headerShown: false, animation: "slide_from_right" }}
       >
         <Stack.Screen name="(tabs)" />
@@ -63,6 +63,6 @@ function RootLayoutNav() {
         <Stack.Screen name="ResetPassword" />
         <Stack.Screen name="SuccessRegister" />
       </Stack>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
