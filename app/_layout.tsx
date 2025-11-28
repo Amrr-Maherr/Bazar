@@ -61,6 +61,7 @@ function RootLayoutNav() {
         <Stack.Screen name="SignUp" />
         <Stack.Screen name="ForgotPassword" />
         <Stack.Screen name="ResetPassword" />
+        <Stack.Screen name="SuccessRegister" />
       </Stack>
     </ThemeProvider>
   );
