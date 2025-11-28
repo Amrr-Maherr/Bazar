@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
@@ -45,19 +46,22 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   return (
-    <Stack
-      initialRouteName="(tabs)"
-      screenOptions={{ headerShown: false, animation: "slide_from_right" }}
-    >
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="Splash" />
-      <Stack.Screen name="Onboarding" />
-      <Stack.Screen name="Login" />
-      <Stack.Screen name="SignUp" />
-      <Stack.Screen name="ForgotPassword" />
-      <Stack.Screen name="ResetPassword" />
-      <Stack.Screen name="SuccessRegister" />
-      <Stack.Screen name="Notification" />
-    </Stack>
+    <>
+      <StatusBar style='auto'/>
+      <Stack
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false, animation: "slide_from_right" }}
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="Splash" />
+        <Stack.Screen name="Onboarding" />
+        <Stack.Screen name="Login" />
+        <Stack.Screen name="SignUp" />
+        <Stack.Screen name="ForgotPassword" />
+        <Stack.Screen name="ResetPassword" />
+        <Stack.Screen name="SuccessRegister" />
+        <Stack.Screen name="Notification" />
+      </Stack>
+    </>
   );
 }
