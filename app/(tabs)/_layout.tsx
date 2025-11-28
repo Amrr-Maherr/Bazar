@@ -28,7 +28,7 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          title:"Home",
+          title: "Home",
         }}
       />
       <Tabs.Screen
@@ -45,7 +45,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="shopping-cart" color={color} />
           ),
-          tabBarBadge:"0"
+          tabBarBadge: "0",
+          tabBarBadgeStyle: {
+            backgroundColor: "#EF5A56",
+            fontSize:10
+          },
         }}
       />
       <Tabs.Screen
