@@ -51,7 +51,7 @@ function RootLayoutNav() {
       <StatusBar style="auto" />
       <ReactQueryProvider>
         <Stack
-          initialRouteName="(tabs)"
+          initialRouteName="Splash"
           screenOptions={{ headerShown: false, animation: "slide_from_right" }}
         >
           <Stack.Screen name="(tabs)" />
