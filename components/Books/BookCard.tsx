@@ -9,6 +9,7 @@ export default function BookCard({ book }: BookCardProps) {
       book.formats["image/jpeg"] || book.formats["image/png"] || undefined;
   return (
     <>
+      
       <Pressable style={styles.card}>
         <View style={styles.container}>
           {imageUrl && (
