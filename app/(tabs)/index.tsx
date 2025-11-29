@@ -1,8 +1,9 @@
 import { useNavigation, useRouter } from "expo-router";
 import { useLayoutEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet,View,FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useBooks } from "@/Hooks/useGetBooks";
+import BookCard from "@/components/Books/BookCard";
 
 export default function TabOneScreen() {
   const { isError, isLoading, data } = useBooks();
@@ -45,7 +46,13 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        data={data?.results}
+        keyExtractor={(book) => book.id.toString()}
+        renderItem={({ item }) => <BookCard book={item}/>}
+      />
     </View>
   );
 }
