@@ -2,8 +2,14 @@ import { useNavigation, useRouter } from "expo-router";
 import { useLayoutEffect } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useBooks } from "@/Hooks/useGetBooks";
 
 export default function TabOneScreen() {
+  const { isError, isLoading, data } = useBooks();
+  console.log(isError, "isError");
+  console.log(isLoading, "isLoading");
+  console.log(data, "data");
+  
   const navigation = useNavigation();
   const Router = useRouter();
 

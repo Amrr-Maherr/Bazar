@@ -1,4 +1,4 @@
-import { BookDetails } from '@/Types/BookDetails';
+import { BookDetails } from '@/Types/BookTypes';
 import axios, { AxiosError } from 'axios';
 
 // Define the props for the hook
