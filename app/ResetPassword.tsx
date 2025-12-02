@@ -6,16 +6,18 @@ import {
   Pressable,
   KeyboardAvoidingView,
   ScrollView,
-  Platform,
+  Platform
 } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 
 export default function ResetPassword() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   return (
     <KeyboardAvoidingView
@@ -33,8 +35,10 @@ export default function ResetPassword() {
 
           {/* Header */}
           <View style={style.header}>
-            <Text style={style.title}>Reset Password 🔐</Text>
-            <Text style={style.description}>Enter your new password below</Text>
+            <Text style={style.title}>Reset Password 🔒</Text>
+            <Text style={style.description}>
+              Create a new password for your account
+            </Text>
           </View>
 
           {/* New Password */}
@@ -44,14 +48,16 @@ export default function ResetPassword() {
               <TextInput
                 style={[style.input, { flex: 1 }]}
                 placeholder="Enter new password"
+                value={password}
+                onChangeText={setPassword}
                 secureTextEntry={!showPassword}
               />
               <Pressable
                 onPress={() => setShowPassword(!showPassword)}
                 style={style.eyeBtn}
               >
-                <Ionicons
-                  name={showPassword ? "eye-off" : "eye"}
+                <AntDesign
+                  name={showPassword ? "eye" : "eye"}
                   size={20}
                   color="#777"
                 />
@@ -65,15 +71,17 @@ export default function ResetPassword() {
             <View style={style.passwordWrapper}>
               <TextInput
                 style={[style.input, { flex: 1 }]}
-                placeholder="Confirm password"
-                secureTextEntry={!showConfirm}
+                placeholder="Re-enter new password"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={!showConfirmPassword}
               />
               <Pressable
-                onPress={() => setShowConfirm(!showConfirm)}
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                 style={style.eyeBtn}
               >
-                <Ionicons
-                  name={showConfirm ? "eye-off" : "eye"}
+                <AntDesign
+                  name={showConfirmPassword ? "eye" : "eye"}
                   size={20}
                   color="#777"
                 />
@@ -86,9 +94,9 @@ export default function ResetPassword() {
             <Text style={style.loginText}>Update Password</Text>
           </Pressable>
 
-          {/* Back to login */}
+          {/* Back To Login */}
           <View style={style.createWrapper}>
-            <Text style={style.smallText}>Back to </Text>
+            <Text style={style.smallText}>Remember the password? </Text>
             <Pressable onPress={() => router.push("/Login")}>
               <Text style={style.createText}>Login</Text>
             </Pressable>
@@ -105,7 +113,6 @@ const style = StyleSheet.create({
     paddingHorizontal: 25,
     paddingTop: 60,
     backgroundColor: "#fff",
-    justifyContent: "flex-start",
   },
 
   backWrapper: {
@@ -115,6 +122,7 @@ const style = StyleSheet.create({
   backBtn: {
     width: 40,
     height: 40,
+    alignItems: "flex-start",
     justifyContent: "center",
   },
 
@@ -165,26 +173,11 @@ const style = StyleSheet.create({
     padding: 5,
   },
 
-  loginBtn: {
-    height: 48,
-    borderRadius: 48,
-    backgroundColor: "#54408C",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 25,
-    elevation: 5,
-  },
-
-  loginText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-
   createWrapper: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 25,
   },
 
   smallText: {
@@ -196,5 +189,22 @@ const style = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: "#54408C",
+  },
+
+  /* Reset Button */
+  loginBtn: {
+    height: 48,
+    borderRadius: 48,
+    backgroundColor: "#54408C",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 25,
+    elevation: 5,
+  },
+
+  loginText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

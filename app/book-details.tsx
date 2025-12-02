@@ -215,7 +215,7 @@ export default function BookDetails() {
           </View>
         </View>
 
-        <Pressable style={styles.readBtn}>
+        <Pressable style={styles.readBtn} onPress={() => router.push(`/reader?id=${book.id}`)}>
           <Text style={styles.readText}>Read Book</Text>
         </Pressable>
       </View>
