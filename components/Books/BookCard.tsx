@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     overflow: "hidden",
     elevation: 3,
+    alignSelf: 'flex-start',
   },
   container: {
     alignItems: "center",

@@ -1,22 +1,37 @@
-import { BooksResponse } from "@/Data/Books";
+import { BookDetails } from "@/Data/Books";
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text, StyleSheet } from "react-native";
 import BookCard from "./BookCard";
 
 type BooksListProps = {
-  Books: BooksResponse;
+  books?: BookDetails[];
+  SectionTitle?:string
 };
 
-export default function BooksList({ Books }: BooksListProps) {
+export default function BooksList({ books,SectionTitle }: BooksListProps) {
   return (
     <View>
-      {/* <FlatList
+      <View>
+        <Text style={styles.sectionTitle}>{SectionTitle}</Text>
+      </View>
+      <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal={true}
-        data={data?.results}
+        // array or empty array
+        data={books || []}
         keyExtractor={(book) => book.id.toString()}
         renderItem={({ item }) => <BookCard book={item} />}
-      /> */}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginHorizontal: 10,
+    marginVertical: 15,
+    color: "#121212",
+  },
+});

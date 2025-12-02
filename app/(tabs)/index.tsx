@@ -1,9 +1,11 @@
 import { useNavigation, useRouter } from "expo-router";
 import { useLayoutEffect } from "react";
-import { Pressable, StyleSheet,View,FlatList } from "react-native";
+import { Pressable, StyleSheet,View,FlatList,Text,ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useBooks } from "@/Hooks/useGetBooks";
 import BookCard from "@/components/Books/BookCard";
+import BooksList from "@/components/Books/BooksList";
+import Banner from "@/components/Banner";
 
 export default function TabOneScreen() {
   const { isError, isLoading, data } = useBooks();
@@ -45,19 +47,30 @@ export default function TabOneScreen() {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        data={data?.results}
-        keyExtractor={(book) => book.id.toString()}
-        renderItem={({ item }) => <BookCard book={item}/>}
+    <ScrollView style={styles.scrollContainer}>
+      <Banner />
+      <BooksList
+        books={data?.results.slice(0, 10)}
+        SectionTitle="New Arrivals"
       />
-    </View>
+      <BooksList
+        books={data?.results.slice(10, 15)}
+        SectionTitle="Best Sellers"
+      />
+      <BooksList books={data?.results.slice(15, 20)} SectionTitle="Top Rated" />
+      <BooksList
+        books={data?.results.slice(20, 25)}
+        SectionTitle="Recommended for You"
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   container: {
     flex: 1,
     alignItems: "center",
