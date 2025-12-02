@@ -1,16 +1,21 @@
 import { BookDetails } from "@/Data/Books";
 import { Image, Pressable, Text, View,StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
 type BookCardProps = {
   book:BookDetails
 };
 export default function BookCard({ book }: BookCardProps) {
+    const router = useRouter();
     const imageUrl =
       book.formats["image/jpeg"] || book.formats["image/png"] || undefined;
   return (
     <>
-      
-      <Pressable style={styles.card}>
+
+      <Pressable
+        style={styles.card}
+        onPress={() => router.push(`/book-details?id=${book.id}`)}
+      >
         <View style={styles.container}>
           {imageUrl && (
             <Image

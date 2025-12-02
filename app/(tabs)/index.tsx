@@ -13,7 +13,7 @@ export default function TabOneScreen() {
   console.log(isError, "isError");
   console.log(isLoading, "isLoading");
   console.log(data, "data");
-  
+
   const navigation = useNavigation();
   const Router = useRouter();
 
@@ -84,21 +84,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     backgroundColor: "white",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 
   headerRight: {
