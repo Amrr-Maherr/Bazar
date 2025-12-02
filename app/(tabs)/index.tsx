@@ -5,7 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useBooks } from "@/Hooks/useGetBooks";
 import BookCard from "@/components/Books/BookCard";
 import BooksList from "@/components/Books/BooksList";
-import Banner from "@/components/Banner";
+import Banner from "@/components/Books/Banner";
+import HomeShimmer from "@/components/HomeShimmer";
 
 export default function TabOneScreen() {
   const { isError, isLoading, data } = useBooks();
@@ -46,9 +47,13 @@ export default function TabOneScreen() {
     });
   }, [navigation]);
 
+  if (isLoading) {
+    return <HomeShimmer />;
+  }
+
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Banner />
+      <Banner featuredProducts={data?.results.slice(0, 5)} />
       <BooksList
         books={data?.results.slice(0, 10)}
         SectionTitle="New Arrivals"
@@ -58,9 +63,18 @@ export default function TabOneScreen() {
         SectionTitle="Best Sellers"
       />
       <BooksList books={data?.results.slice(15, 20)} SectionTitle="Top Rated" />
+      <Banner featuredProducts={data?.results.slice(10, 25)} />
       <BooksList
         books={data?.results.slice(20, 25)}
         SectionTitle="Recommended for You"
+      />
+      <BooksList
+        books={data?.results.slice(25, 30)}
+        SectionTitle="Trending Now"
+      />
+      <BooksList
+        books={data?.results.slice(30, 35)}
+        SectionTitle="Award Winners"
       />
     </ScrollView>
   );

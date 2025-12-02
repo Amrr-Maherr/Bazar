@@ -13,8 +13,8 @@ const useBookDetails = async ({ Query }: BookDetailsProp): Promise<BookDetails |
     if (!Query) return null;
 
     try {
-        // Make GET request to Open Library API for the specified book work
-        const response = await axios.get<BookDetails>(`https://gutendex.com/books?search=${Query}`);
+        // Make GET request to Gutendex API for the specified book
+        const response = await axios.get<BookDetails>(`https://gutendex.com/books/${Query}/`);
         // Return the data from the API response
         return response.data;
     } catch (error) {
