@@ -1,8 +1,7 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-
-import { useColorScheme } from "@/components/useColorScheme";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -13,12 +12,19 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#54408C",
+        tabBarInactiveTintColor: "#666666",
+        tabBarStyle: {
+          backgroundColor: "#ffffff",
+          borderTopColor: "#e9ecef",
+        },
+        headerStyle: {
+          backgroundColor: "#ffffff",
+        },
+        headerTintColor: "#121212",
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: true,
@@ -43,13 +49,9 @@ export default function TabLayout() {
         name="cart"
         options={{
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="shopping-cart" color={color} />
+            <Ionicons name="bookmark" size={24} color={color} />
           ),
-          tabBarBadge: "0",
-          tabBarBadgeStyle: {
-            backgroundColor: "#EF5A56",
-            fontSize:10
-          },
+          title: "Bookmarks",
         }}
       />
       <Tabs.Screen

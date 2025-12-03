@@ -9,18 +9,19 @@ import {
   Share,
 } from "react-native";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import useBookDetails from "../Api/useBookDetails";
 import BookDetailsShimmer from "../components/BookDetailsShimmer";
 import ErrorComponent from "../components/ErrorComponent";
 import AudioReader from "@/components/AudioReader";
+import { useFavoritesStore } from "@/store/favoritesStore";
 
 export default function BookDetails() {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
-  const [favorite, setFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState("summary");
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavoritesStore();
 
   const {
     data: book,
@@ -86,9 +87,18 @@ export default function BookDetails() {
         {/* -------- TITLE -------- */}
         <Text style={styles.bookTitle}>{book.title}</Text>
         {/* -------- AUTHORS -------- */}
-        <Text style={styles.author}>
-          {book.authors?.map((a) => a.name).join(", ") || "Unknown Author"}
-        </Text>
+        <View style={styles.authorContainer}>
+          {book.authors?.map((author, index) => (
+            <Pressable
+              key={index}
+              onPress={() => router.push(`/AuthorDetails?authorName=${encodeURIComponent(author.name)}`)}
+            >
+              <Text style={styles.authorLink}>
+                {author.name}{index < (book.authors?.length || 0) - 1 ? ', ' : ''}
+              </Text>
+            </Pressable>
+          )) || <Text style={styles.author}>Unknown Author</Text>}
+        </View>
 
         {/* -------- BUTTONS: SHARE + FAVORITE -------- */}
         <View style={styles.actionsRow}>
@@ -99,12 +109,18 @@ export default function BookDetails() {
 
           <Pressable
             style={styles.actionBtn}
-            onPress={() => setFavorite(!favorite)}
+            onPress={() => {
+              if (isFavorite(book.id)) {
+                removeFromFavorites(book.id);
+              } else {
+                addToFavorites(book);
+              }
+            }}
           >
             <MaterialIcons
-              name={favorite ? "favorite" : "favorite-border"}
+              name={isFavorite(book.id) ? "favorite" : "favorite-border"}
               size={24}
-              color={favorite ? "red" : "#007AFF"}
+              color={isFavorite(book.id) ? "red" : "#007AFF"}
             />
             <Text style={styles.actionTxt}>Favorite</Text>
           </Pressable>
@@ -217,6 +233,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     fontStyle: "italic",
+  },
+  authorContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginBottom: 20,
+  },
+  authorLink: {
+    fontSize: 16,
+    color: "#54408C",
+    fontStyle: "italic",
+    textDecorationLine: "underline",
   },
 
   actionsRow: {

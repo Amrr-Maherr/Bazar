@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import Toast from 'react-native-toast-message';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
@@ -45,7 +46,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-
   return (
     <>
       <StatusBar style="auto" />
@@ -64,8 +64,13 @@ function RootLayoutNav() {
           <Stack.Screen name="OTP" />
           <Stack.Screen name="SuccessRegister" />
           <Stack.Screen name="Notification" />
+          <Stack.Screen name="Favorites" />
+          <Stack.Screen name="Settings" />
+          <Stack.Screen name="AuthorDetails" />
+          <Stack.Screen name="CategoryDetails" />
         </Stack>
       </ReactQueryProvider>
+      <Toast />
     </>
   );
 }

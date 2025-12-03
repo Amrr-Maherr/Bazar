@@ -6,8 +6,11 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Profile() {
+  const router = useRouter();
+
   return (
     <ScrollView style={styles.container}>
       {/* User Info */}
@@ -30,11 +33,11 @@ export default function Profile() {
           <Text style={styles.optionText}>My Orders</Text>
         </Pressable>
 
-        <Pressable style={styles.optionBtn}>
+        <Pressable style={styles.optionBtn} onPress={() => router.push('/Favorites')}>
           <Text style={styles.optionText}>Favorites</Text>
         </Pressable>
 
-        <Pressable style={styles.optionBtn}>
+        <Pressable style={styles.optionBtn} onPress={() => router.push('/Settings')}>
           <Text style={styles.optionText}>Settings</Text>
         </Pressable>
 
