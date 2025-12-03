@@ -2,8 +2,9 @@ import BookCard from "@/components/Books/BookCard";
 import { BookDetails } from "@/Data/Books";
 import { useBookSearch } from "@/Hooks/useBookSearch";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useNavigation, useRouter } from "expo-router";
+import { useLayoutEffect, useState } from "react";
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import {
   ActivityIndicator,
   FlatList,
@@ -18,7 +19,7 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-
+  const navigation = useNavigation();
   const {
     data: books,
     isLoading,
@@ -36,7 +37,20 @@ export default function Search() {
     setSearchQuery("");
     setSearchTerm("");
   };
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 12 }}
+        >
+          <AntDesign name="arrow-left" size={24} color="#000" />
+        </Pressable>
+      ),
+    });
+  }, [navigation]);
+  
   const renderBookItem = ({ item }: { item: BookDetails }) => (
     <View style={styles.bookItem}>
       <BookCard book={item} />
