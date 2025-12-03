@@ -25,8 +25,18 @@ export default function Profile() {
 
       {/* Options */}
       <View style={styles.options}>
-        <Pressable style={styles.optionBtn}>
+        <Pressable
+          style={styles.optionBtn}
+          onPress={() => router.push('/EditProfile')}
+        >
           <Text style={styles.optionText}>Edit Profile</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.optionBtn}
+          onPress={() => router.push('/Notifications')}
+        >
+          <Text style={styles.optionText}>Notifications</Text>
         </Pressable>
 
         <Pressable style={styles.optionBtn}>

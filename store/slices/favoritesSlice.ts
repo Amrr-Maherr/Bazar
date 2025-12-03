@@ -1,5 +1,5 @@
 import { BookDetails } from '@/Types/BookTypes';
-import Toast from 'react-native-toast-message';
+import { Alert } from 'react-native';
 
 export interface FavoritesState {
   favorites: BookDetails[];
@@ -17,23 +17,23 @@ const favoritesSlice = {
       const exists = state.favorites.find(fav => fav.id === action.payload.id);
       if (!exists) {
         state.favorites.push(action.payload);
-        // Show success toast
-        Toast.show({
-          type: 'success',
-          text1: '✅ Added to Bookmarks',
-          text2: `${action.payload.title} has been saved to your favorites`,
-          position: 'bottom',
-          visibilityTime: 3000,
-        });
+        // Show success alert
+        setTimeout(() => {
+          Alert.alert(
+            'Added to Bookmarks',
+            `${action.payload.title} has been saved to your favorites`,
+            [{ text: 'OK' }]
+          );
+        }, 100);
       } else {
-        // Show info toast if already exists
-        Toast.show({
-          type: 'info',
-          text1: 'ℹ️ Already in Bookmarks',
-          text2: 'This book is already in your favorites',
-          position: 'bottom',
-          visibilityTime: 2500,
-        });
+        // Show info alert if already exists
+        setTimeout(() => {
+          Alert.alert(
+            'Already in Bookmarks',
+            'This book is already in your favorites',
+            [{ text: 'OK' }]
+          );
+        }, 100);
       }
     },
 
@@ -42,14 +42,14 @@ const favoritesSlice = {
       state.favorites = state.favorites.filter(book => book.id !== action.payload);
 
       if (bookToRemove) {
-        // Show success toast
-        Toast.show({
-          type: 'error', // Red color for removal
-          text1: '❌ Removed from Bookmarks',
-          text2: `${bookToRemove.title} has been removed`,
-          position: 'bottom',
-          visibilityTime: 3000,
-        });
+        // Show success alert
+        setTimeout(() => {
+          Alert.alert(
+            'Removed from Bookmarks',
+            `${bookToRemove.title} has been removed from your favorites`,
+            [{ text: 'OK' }]
+          );
+        }, 100);
       }
     },
   },

@@ -47,17 +47,17 @@ export default function Bookmarks() {
 
   if (bookmarks.length === 0) {
     return (
-      <View style={styles.container}>
-        <Ionicons name="bookmark-outline" size={80} color="#666" />
-        <Text style={styles.header}>No Bookmarks Yet</Text>
-        <Text style={styles.subtitle}>
-          Favorite books to see them here
+      <View style={styles.emptyContainer}>
+        <Ionicons name="bookmark-outline" size={80} color="#ccc" />
+        <Text style={styles.emptyTitle}>No Bookmarks Yet</Text>
+        <Text style={styles.emptySubtitle}>
+          Start adding books to your bookmarks and they'll appear here
         </Text>
         <Pressable
-          style={styles.browseBtn}
+          style={styles.exploreBtn}
           onPress={() => router.push('/')}
         >
-          <Text style={styles.browseBtnText}>Browse Books</Text>
+          <Text style={styles.exploreBtnText}>Explore Books</Text>
         </Pressable>
       </View>
     );
@@ -83,37 +83,15 @@ export default function Bookmarks() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginTop: 24,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  browseBtn: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
-  },
-  browseBtnText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
+    color: '#121212',
     marginBottom: 16,
-    paddingTop: 10,
   },
   booksGrid: {
     gap: 10,
@@ -135,5 +113,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 2,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    backgroundColor: '#fff',
+  },
+  emptyTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#121212',
+    marginTop: 24,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 32,
+  },
+  exploreBtn: {
+    backgroundColor: '#54408C',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 25,
+  },
+  exploreBtnText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

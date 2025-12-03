@@ -200,7 +200,7 @@ export default function Settings() {
           title="Downloaded Books"
           subtitle="Manage your offline book collection"
           icon={<Ionicons name="folder-open" size={22} color="#54408C" />}
-          onPress={() => router.push('/DownloadedBooks')}
+          onPress={() => Alert.alert('Coming Soon', 'Downloaded books feature coming soon!')}
         />
       </View>
 

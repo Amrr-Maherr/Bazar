@@ -4,7 +4,6 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import Toast from 'react-native-toast-message';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
@@ -51,7 +50,7 @@ function RootLayoutNav() {
       <StatusBar style="auto" />
       <ReactQueryProvider>
         <Stack
-          initialRouteName="(tabs)"
+          initialRouteName="Splash"
           screenOptions={{ headerShown: false, animation: "slide_from_right" }}
         >
           <Stack.Screen name="(tabs)" />
@@ -63,14 +62,19 @@ function RootLayoutNav() {
           <Stack.Screen name="ResetPassword" />
           <Stack.Screen name="OTP" />
           <Stack.Screen name="SuccessRegister" />
+          <Stack.Screen name="Notifications" />
           <Stack.Screen name="Notification" />
           <Stack.Screen name="Favorites" />
           <Stack.Screen name="Settings" />
           <Stack.Screen name="AuthorDetails" />
           <Stack.Screen name="CategoryDetails" />
+          <Stack.Screen name="EditProfile" />
+          <Stack.Screen name="Help" />
+          <Stack.Screen name="About" />
+          <Stack.Screen name="Privacy" />
+          <Stack.Screen name="Terms" />
         </Stack>
       </ReactQueryProvider>
-      <Toast />
     </>
   );
 }

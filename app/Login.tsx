@@ -81,7 +81,10 @@ export default function Login() {
             </View>
 
             {/* Login Button */}
-            <Pressable style={style.loginBtn}>
+            <Pressable
+              style={style.loginBtn}
+              onPress={() => router.push("/(tabs)")}
+            >
               <Text style={style.loginText}>Login</Text>
             </Pressable>
 
