@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,17 +6,21 @@ import {
   Image,
   ScrollView,
   Pressable,
+  Share,
 } from "react-native";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import useBookDetails from "../Api/useBookDetails";
 import BookDetailsShimmer from "../components/BookDetailsShimmer";
 import ErrorComponent from "../components/ErrorComponent";
+import AudioReader from "@/components/AudioReader";
 
 export default function BookDetails() {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
+  const [favorite, setFavorite] = useState(false);
+  const [activeTab, setActiveTab] = useState("summary");
 
   const {
     data: book,
@@ -25,7 +29,7 @@ export default function BookDetails() {
     refetch,
   } = useQuery({
     queryKey: ["book-details", id],
-    queryFn: () => useBookDetails({ Query: id as string }),
+    queryFn: () => useBookDetails({ Query: String(id) }),
   });
 
   useLayoutEffect(() => {
@@ -52,36 +56,131 @@ export default function BookDetails() {
   if (error || !book) {
     return (
       <ErrorComponent
-        message="Failed to load book details. Please check your connection and try again."
-        onRetry={() => refetch}
+        message="Failed to load book details. Please try again."
+        onRetry={() => refetch()}
       />
     );
   }
 
+  // --------- SHARE BOOK ----------
+  const shareBook = async () => {
+    try {
+      await Share.share({
+        message: `Check this book: ${book.title}\n${book.formats["text/html"]}`,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
+        {/* -------- BOOK IMAGE -------- */}
         <Image
+          resizeMode="contain"
           source={{ uri: book.formats["image/jpeg"] }}
           style={styles.bookImage}
         />
+
+        {/* -------- TITLE -------- */}
         <Text style={styles.bookTitle}>{book.title}</Text>
-        <Text style={styles.bookAuthor}>
-          By{" "}
-          {book.authors
-            ?.map(
-              (a) =>
-                `${a.name}${
-                  a.birth_year
-                    ? ` (${a.birth_year}-${a.death_year || "present"})`
-                    : ""
-                }`
-            )
-            .join(", ") || "Unknown Author"}
+        {/* -------- AUTHORS -------- */}
+        <Text style={styles.author}>
+          {book.authors?.map((a) => a.name).join(", ") || "Unknown Author"}
         </Text>
 
-        {/* باقي تفاصيل الكتاب مثل Basic Info و Categories و Description ... */}
-        {/* ... */}
+        {/* -------- BUTTONS: SHARE + FAVORITE -------- */}
+        <View style={styles.actionsRow}>
+          <Pressable style={styles.actionBtn} onPress={shareBook}>
+            <Feather name="share-2" size={22} color="#007AFF" />
+            <Text style={styles.actionTxt}>Share</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.actionBtn}
+            onPress={() => setFavorite(!favorite)}
+          >
+            <MaterialIcons
+              name={favorite ? "favorite" : "favorite-border"}
+              size={24}
+              color={favorite ? "red" : "#007AFF"}
+            />
+            <Text style={styles.actionTxt}>Favorite</Text>
+          </Pressable>
+        </View>
+
+        {/* -------- TABS -------- */}
+        <View style={styles.tabsRow}>
+          {["summary", "details", "download"].map((tab) => (
+            <Pressable
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              style={[styles.tab, activeTab === tab && styles.tabActive]}
+            >
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === tab && styles.tabTextActive,
+                ]}
+              >
+                {tab.toUpperCase()}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+
+        {/* -------- TAB CONTENT -------- */}
+        {activeTab === "summary" && (
+          <View style={styles.tabContent}>
+            <Text style={styles.sectionTitle}>Summary</Text>
+            <Text style={styles.paragraph}>
+              {book.summaries?.[0] || "No summary available."}
+            </Text>
+            <AudioReader text={book.summaries?.[0] || ""} />
+          </View>
+        )}
+
+        {activeTab === "details" && (
+          <View style={styles.tabContent}>
+            <Text style={styles.sectionTitle}>Details</Text>
+            <Text style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Language: </Text>
+              {book.languages?.join(", ") || "Unknown"}
+            </Text>
+
+            <Text style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Download Count: </Text>
+              {book.download_count}
+            </Text>
+
+            <Text style={styles.detailLabel}>Subjects:</Text>
+            {book.subjects?.map((s, i) => (
+              <Text key={i} style={styles.bullet}>
+                • {s}
+              </Text>
+            ))}
+          </View>
+        )}
+
+        {activeTab === "download" && (
+          <View style={styles.tabContent}>
+            <Text style={styles.sectionTitle}>Download Options</Text>
+
+            {Object.entries(book.formats).map(([format, link], i) => (
+              <Pressable
+                key={i}
+                style={styles.downloadItem}
+                onPress={() => router.push(link as never)}
+              >
+                <Text style={styles.downloadFormat}>{format}</Text>
+                <AntDesign name="download" size={20} color="#007AFF" />
+              </Pressable>
+            ))}
+          </View>
+        )}
+
+        {/* READ BUTTON */}
         <Pressable
           style={styles.readBtn}
           onPress={() => router.push(`/reader?id=${book.id}`)}
@@ -94,55 +193,137 @@ export default function BookDetails() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8f9fa" },
+  container: { flex: 1, backgroundColor: "white" },
   content: { padding: 20 },
+
   bookImage: {
-    width: 160,
-    height: 220,
-    borderRadius: 15,
-    marginBottom: 30,
+    width: 230,
+    height: 300,
+    marginBottom: 25,
     alignSelf: "center",
-    borderWidth: 3,
-    borderColor: "#e0e0e0",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
+    borderRadius: 8,
   },
+
   bookTitle: {
-    fontSize: 26,
-    fontWeight: "800",
-    color: "#2c3e50",
+    fontSize: 28,
+    fontWeight: "900",
+    color: "#1a1a1a",
     textAlign: "center",
-    marginBottom: 12,
-    lineHeight: 32,
+    marginBottom: 6,
   },
-  bookAuthor: {
-    fontSize: 18,
-    color: "#7f8c8d",
+  author: {
+    fontSize: 16,
+    color: "#6c7a89",
     textAlign: "center",
     marginBottom: 20,
     fontStyle: "italic",
   },
-  readBtn: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 25,
+
+  actionsRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 25,
+    marginBottom: 25,
+  },
+  actionBtn: {
     alignItems: "center",
-    alignSelf: "center",
-    marginTop: 30,
-    shadowColor: "#007AFF",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
+  },
+  actionTxt: {
+    marginTop: 6,
+    fontSize: 14,
+    color: "#007AFF",
+  },
+
+  tabsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#e9ecef",
+    padding: 8,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  tab: {
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+  },
+  tabActive: {
+    backgroundColor: "#54408C",
+  },
+  tabText: {
+    fontSize: 14,
+    color: "#6c7a89",
+    fontWeight: "700",
+  },
+  tabTextActive: {
+    color: "#fff",
+  },
+
+  tabContent: {
+    backgroundColor: "#fff",
+    padding: 18,
+    borderRadius: 12,
+    marginBottom: 30,
+    elevation: 2,
+  },
+
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "800",
+    marginBottom: 12,
+    color: "#2c3e50",
+  },
+
+  paragraph: {
+    fontSize: 15,
+    color: "#444",
+    lineHeight: 22,
+  },
+
+  detailItem: {
+    fontSize: 15,
+    marginBottom: 6,
+    color: "#333",
+  },
+  detailLabel: {
+    fontWeight: "700",
+    color: "#000",
+  },
+  bullet: {
+    fontSize: 14,
+    color: "#555",
+    marginLeft: 10,
+    marginBottom: 4,
+  },
+
+  downloadItem: {
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 10,
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  downloadFormat: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#54408C",
+  },
+
+  readBtn: {
+    backgroundColor: "#54408C",
+    paddingVertical: 16,
+    borderRadius: 30,
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 40,
   },
   readText: {
     color: "#fff",
     fontSize: 18,
-    fontWeight: "600",
-    letterSpacing: 0.5,
+    fontWeight: "700",
   },
 });
