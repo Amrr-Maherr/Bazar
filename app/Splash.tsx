@@ -5,27 +5,29 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Splash() {
   const Router = useRouter();
-  useEffect(() => {
-    const checkUserData = async () => {
-      const UserData = await AsyncStorage.getItem("UserData");
-      if (UserData) {
-        Router.replace("/(tabs)");
-      } else {
-        setTimeout(() => {
-          Router.replace("/Onboarding");
-        }, 3000);
-      }
-    };
-    checkUserData();
-  }, []);
+  // useEffect(() => {
+  //   const checkUserData = async () => {
+  //     const UserData = await AsyncStorage.getItem("UserData");
+  //     if (UserData) {
+  //       Router.replace("/(tabs)");
+  //     } else {
+  //       setTimeout(() => {
+  //         Router.replace("/Onboarding");
+  //       }, 3000);
+  //     }
+  //   };
+  //   checkUserData();
+  // }, []);
   return (
     <>
-    <View style={style.container}>
-        <Text style={style.title}>Bazar.</Text>
-        <Image
-          style={style.logo}
-          source={require("../assets/images/Logo.png")}
-        />
+      <View style={style.container}>
+        <View style={{justifyContent:"center",alignItems:"center",flexDirection:"row-reverse",gap:10}}>
+          <Text style={style.title}>Bazar.</Text>
+          <Image
+            style={style.logo}
+            source={require("../assets/images/Logo.png")}
+          />
+        </View>
         <Text style={style.version}>Version 1.0.0</Text>
         <Image
           style={style.image}
@@ -42,7 +44,7 @@ const style = StyleSheet.create({
     backgroundColor: "#54408C",
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row-reverse",
+    flexDirection: "column",
     gap: 10,
     position: "relative",
   },
