@@ -78,12 +78,8 @@ export default function Profile() {
           <Text style={styles.optionText}>Notifications</Text>
         </Pressable>
 
-        <Pressable style={styles.optionBtn}>
-          <Text style={styles.optionText}>My Orders</Text>
-        </Pressable>
-
-        <Pressable style={styles.optionBtn} onPress={() => router.push('/Favorites')}>
-          <Text style={styles.optionText}>Favorites</Text>
+        <Pressable style={styles.optionBtn} onPress={() => router.push('/(tabs)/cart')}>
+          <Text style={styles.optionText}>Bookmarks</Text>
         </Pressable>
 
         <Pressable style={styles.optionBtn} onPress={() => router.push('/Settings')}>
@@ -154,7 +150,7 @@ const styles = StyleSheet.create({
 
   logoutBtn: {
     backgroundColor: "#EF5A56",
-    borderRadius: 10,
+    borderRadius: 48,
     alignItems: "center",
     marginTop: 20,
   },
