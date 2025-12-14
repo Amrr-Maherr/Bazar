@@ -14,7 +14,12 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +28,13 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.amr_maher.Bazar"
+      "package": "com.amr_maher.Bazar",
+      "networkSecurityConfig": {
+        "domainConfig": {
+          "domain": ["*"],
+          "cleartextTrafficPermitted": true
+        }
+      }
     },
     "web": {
       "bundler": "metro",
