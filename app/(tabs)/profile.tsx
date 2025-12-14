@@ -7,9 +7,30 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
   const router = useRouter();
+  const [userData, setUserData] = useState<{ name?: string; email?: string; password?: string }>({});
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem("UserData");
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          setUserData(parsedData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadUserData();
+  }, []);
+
+  const name = userData.name || "Amr Maher";
+  const email = userData.email || "amrr.maherr24@gmail.com";
 
   return (
     <ScrollView style={styles.container}>
@@ -19,8 +40,8 @@ export default function Profile() {
           source={{ uri: "https://i.pravatar.cc/150?img=12" }}
           style={styles.avatar}
         />
-        <Text style={styles.name}>Amr Maher</Text>
-        <Text style={styles.email}>amrr.maherr24@gmail.com</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.email}>{email}</Text>
       </View>
 
       {/* Options */}

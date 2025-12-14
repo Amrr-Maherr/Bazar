@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
@@ -26,10 +27,16 @@ export default function SignUp() {
         password: "",
       },
     });
-    const onSubmit = (data: { name: string; email: string; password: string }) => {
+  const onSubmit = async (data: { name: string; email: string; password: string }) => {
+    try {
+      const UserData = JSON.stringify(data);
+      await AsyncStorage.setItem("UserData", UserData);
       console.log(data);
       router.push("/SuccessRegister");
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
     const router = useRouter();
 
   return (
