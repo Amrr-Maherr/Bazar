@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Splash() {
-  const Router = useRouter()
+  const Router = useRouter();
   useEffect(() => {
     const checkUserData = async () => {
       const UserData = await AsyncStorage.getItem("UserData");
@@ -20,12 +20,13 @@ export default function Splash() {
   }, []);
   return (
     <>
-      <View style={style.container}>
+    <View style={style.container}>
         <Text style={style.title}>Bazar.</Text>
         <Image
           style={style.logo}
           source={require("../assets/images/Logo.png")}
         />
+        <Text style={style.version}>Version 1.0.0</Text>
         <Image
           style={style.image}
           source={require("../assets/images/Logo.png")}
@@ -54,12 +55,17 @@ const style = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  version: {
+    fontSize: 16,
+    color: "#ffffffaa",
+    marginTop: 5,
+  },
   image: {
     position: "absolute",
     bottom: 0,
-    left:-30,
+    left: -30,
     width: 316.61,
     height: 316.61,
-    opacity:0.2
+    opacity: 0.2,
   },
 });
