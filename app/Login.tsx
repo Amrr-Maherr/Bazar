@@ -13,6 +13,7 @@ import { useForm, Controller } from "react-hook-form";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +27,19 @@ export default function Login() {
       password: "",
     },
   });
+  const HandleStoreData = async (data: { email: string; password: string }) => {
+    try {
+      const UserData = JSON.stringify(data)
+      await AsyncStorage.setItem("UserData", UserData);
+    } catch (error) {
+      console.error(error)
+    }
+  };
   const onSubmit = (data: { email: string; password: string }) => {
     console.log(data);
+    if (data) {
+      HandleStoreData(data);
+    }
     router.push("/(tabs)");
   };
      const router = useRouter();
