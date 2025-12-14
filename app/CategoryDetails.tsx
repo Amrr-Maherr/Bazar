@@ -11,13 +11,12 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useBookSearch } from '@/Hooks/useBookSearch';
 import BookCard from '@/components/Books/BookCard';
-import { useFavoritesStore } from '@/store/favoritesStore';
+import AuthorDetailsShimmer from '@/components/AuthorDetailsShimmer';
 
 export default function CategoryDetails() {
   const { categoryName } = useLocalSearchParams<{ categoryName: string }>();
   const navigation = useNavigation();
   const router = useRouter();
-  const { addToFavorites, removeFromFavorites, isFavorite } = useFavoritesStore();
 
   const { data: books, isLoading, isError, refetch } = useBookSearch(categoryName || '');
 
@@ -36,28 +35,8 @@ export default function CategoryDetails() {
     });
   }, [navigation, categoryName]);
 
-  const toggleFavorite = (book: any) => {
-    if (isFavorite(book.id)) {
-      removeFromFavorites(book.id);
-    } else {
-      addToFavorites(book);
-    }
-  };
-
   const renderBookItem = ({ item }: { item: any }) => (
-    <View style={styles.bookItem}>
-      <BookCard book={item} />
-      <Pressable
-        style={styles.favoriteBtn}
-        onPress={() => toggleFavorite(item)}
-      >
-        <Ionicons
-          name={isFavorite(item.id) ? "heart" : "heart-outline"}
-          size={24}
-          color={isFavorite(item.id) ? "#EF5A56" : "#666"}
-        />
-      </Pressable>
-    </View>
+    <BookCard book={item} />
   );
 
   const filteredBooks = books?.filter((book: any) =>
@@ -67,11 +46,7 @@ export default function CategoryDetails() {
   ) || [];
 
   if (isLoading) {
-    return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.loadingText}>Loading books in {categoryName}...</Text>
-      </View>
-    );
+    return <AuthorDetailsShimmer />;
   }
 
   if (isError) {
@@ -195,23 +170,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 10,
     paddingBottom: 20,
-  },
-  bookItem: {
-    flex: 1,
-    maxWidth: '50%',
-    position: 'relative',
-  },
-  favoriteBtn: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 16,
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 2,
   },
   emptyContainer: {
     flex: 1,
