@@ -1,3 +1,4 @@
+import React, { useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -6,12 +7,14 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useNavigation } from "expo-router";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from '@expo/vector-icons';
 
 export default function Profile() {
   const router = useRouter();
+  const navigation = useNavigation();
   const [userData, setUserData] = useState<{ name?: string; email?: string; password?: string }>({});
 
   useEffect(() => {
@@ -31,6 +34,21 @@ export default function Profile() {
 
   const name = userData.name || "Amr Maher";
   const email = userData.email || "amrr.maherr24@gmail.com";
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: name,
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 12 }}
+        >
+          <AntDesign name="arrow-left" size={24} color="#000" />
+        </Pressable>
+      ),
+    });
+  }, [name]);
 
   return (
     <ScrollView style={styles.container}>

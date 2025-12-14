@@ -1,6 +1,7 @@
+import React, { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from '@expo/vector-icons';
+import { useRouter, useNavigation } from "expo-router";
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 const categories = [
   { id: "1", name: "Fiction", icon: "book" },
@@ -17,10 +18,25 @@ const categories = [
 
 export default function Category() {
   const router = useRouter();
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Book Categories",
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 12 }}
+        >
+          <AntDesign name="arrow-left" size={24} color="#000" />
+        </Pressable>
+      ),
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Book Categories</Text>
       <Text style={styles.subtitle}>Explore books by genre and topic</Text>
       <FlatList
         data={categories}
