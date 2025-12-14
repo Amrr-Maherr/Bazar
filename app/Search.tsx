@@ -70,6 +70,7 @@ export default function Search() {
           />
           <TextInput
             placeholder="Search for books, authors..."
+            placeholderTextColor="#777"
             value={searchQuery}
             onChangeText={setSearchQuery}
             style={styles.input}

@@ -113,6 +113,7 @@ export default function EditProfile() {
                 value={name}
                 onChangeText={setName}
                 placeholder="Enter your full name"
+                placeholderTextColor="#777"
               />
             </View>
           </View>
@@ -129,6 +130,7 @@ export default function EditProfile() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 placeholder="Enter your email"
+                placeholderTextColor="#777"
               />
             </View>
           </View>
@@ -144,6 +146,7 @@ export default function EditProfile() {
                 onChangeText={setPhone}
                 keyboardType="phone-pad"
                 placeholder="Enter your phone number"
+                placeholderTextColor="#777"
               />
             </View>
           </View>
@@ -160,6 +163,7 @@ export default function EditProfile() {
                 numberOfLines={4}
                 maxLength={200}
                 placeholder="Tell us a bit about yourself..."
+                placeholderTextColor="#777"
               />
             </View>
             <Text style={styles.charCount}>{bio.length}/200</Text>

@@ -48,6 +48,7 @@ export default function ResetPassword() {
               <TextInput
                 style={[style.input, { flex: 1 }]}
                 placeholder="Enter new password"
+                placeholderTextColor="#777"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
@@ -72,6 +73,7 @@ export default function ResetPassword() {
               <TextInput
                 style={[style.input, { flex: 1 }]}
                 placeholder="Re-enter new password"
+                placeholderTextColor="#777"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!showConfirmPassword}

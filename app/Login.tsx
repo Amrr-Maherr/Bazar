@@ -77,6 +77,7 @@ export default function Login() {
                   <TextInput
                     style={style.input}
                     placeholder="Your email"
+                    placeholderTextColor="#777"
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
@@ -100,6 +101,7 @@ export default function Login() {
                     <TextInput
                       style={[style.input, { flex: 1 }]}
                       placeholder="Your password"
+                      placeholderTextColor="#777"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
@@ -238,7 +240,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
     backgroundColor: "#FAFAFA",
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
 
   error: {
