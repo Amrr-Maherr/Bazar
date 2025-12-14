@@ -13,6 +13,7 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useBookSearch } from '@/Hooks/useBookSearch';
 import BookCard from '@/components/Books/BookCard';
+import AuthorDetailsShimmer from '@/components/AuthorDetailsShimmer';
 import { useFavoritesStore } from '@/store/favoritesStore';
 
 export default function AuthorDetails() {
@@ -65,11 +66,7 @@ export default function AuthorDetails() {
   );
 
   if (isLoading) {
-    return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.loadingText}>Loading books by {authorName}...</Text>
-      </View>
-    );
+    return <AuthorDetailsShimmer />;
   }
 
   if (isError) {
@@ -94,7 +91,6 @@ export default function AuthorDetails() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Ionicons name="person" size={32} color="#54408C" />
-        <Text style={styles.authorTitle}>{authorName}</Text>
         <Text style={styles.bookCount}>
           {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''} available
         </Text>
