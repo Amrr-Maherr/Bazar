@@ -14,13 +14,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useBookSearch } from '@/Hooks/useBookSearch';
 import BookCard from '@/components/Books/BookCard';
 import AuthorDetailsShimmer from '@/components/AuthorDetailsShimmer';
-import { useFavoritesStore } from '@/store/favoritesStore';
 
 export default function AuthorDetails() {
   const { authorName } = useLocalSearchParams<{ authorName: string }>();
   const navigation = useNavigation();
   const router = useRouter();
-  const { addToFavorites, removeFromFavorites, isFavorite } = useFavoritesStore();
 
   const { data: books, isLoading, isError, refetch } = useBookSearch(authorName || '');
 
@@ -39,30 +37,8 @@ export default function AuthorDetails() {
     });
   }, [navigation, authorName]);
 
-  const toggleFavorite = (book: any) => {
-    if (isFavorite(book.id)) {
-      removeFromFavorites(book.id);
-      Alert.alert('Removed from Favorites', `${book.title} removed from favorites`);
-    } else {
-      addToFavorites(book);
-      Alert.alert('Added to Favorites', `${book.title} added to favorites`);
-    }
-  };
-
   const renderBookItem = ({ item }: { item: any }) => (
-    <View style={styles.bookItem}>
-      <BookCard book={item} />
-      <Pressable
-        style={styles.favoriteBtn}
-        onPress={() => toggleFavorite(item)}
-      >
-        <Ionicons
-          name={isFavorite(item.id) ? "heart" : "heart-outline"}
-          size={24}
-          color={isFavorite(item.id) ? "#EF5A56" : "#666"}
-        />
-      </Pressable>
-    </View>
+    <BookCard book={item} />
   );
 
   if (isLoading) {
@@ -91,6 +67,7 @@ export default function AuthorDetails() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Ionicons name="person" size={32} color="#54408C" />
+        {/* <Text style={styles.authorTitle}>{authorName}</Text> */}
         <Text style={styles.bookCount}>
           {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''} available
         </Text>
@@ -192,23 +169,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 10,
     paddingBottom: 20,
-  },
-  bookItem: {
-    flex: 1,
-    maxWidth: '50%',
-    position: 'relative',
-  },
-  favoriteBtn: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 16,
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 2,
   },
   emptyContainer: {
     flex: 1,
