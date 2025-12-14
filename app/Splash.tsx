@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
@@ -5,11 +6,18 @@ import { Image, Text, View, StyleSheet } from "react-native";
 export default function Splash() {
   const Router = useRouter()
   useEffect(() => {
-    const timer = setTimeout(() => {
-      Router.replace("/Onboarding");
-    }, 3000);
-    return ()=> clearTimeout(timer)
-  },[])
+    const checkUserData = async () => {
+      const UserData = await AsyncStorage.getItem("UserData");
+      if (UserData) {
+        Router.replace("/(tabs)");
+      } else {
+        setTimeout(() => {
+          Router.replace("/Onboarding");
+        }, 3000);
+      }
+    };
+    checkUserData();
+  }, []);
   return (
     <>
       <View style={style.container}>
