@@ -8,13 +8,29 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
-     const router = useRouter();
+    const {
+      control,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      defaultValues: {
+        name: "",
+        email: "",
+        password: "",
+      },
+    });
+    const onSubmit = (data: { name: string; email: string; password: string }) => {
+      console.log(data);
+      router.push("/SuccessRegister");
+    };
+    const router = useRouter();
 
   return (
     <KeyboardAvoidingView
@@ -37,41 +53,94 @@ export default function SignUp() {
           </View>
 
           {/* Name */}
-          <View style={style.inputWrapper}>
-            <Text style={style.label}>Name</Text>
-            <TextInput style={style.input} placeholder="Your name" />
-          </View>
+          <Controller
+            control={control}
+            name="name"
+            rules={{
+              required: "Name is required",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={style.inputWrapper}>
+                <Text style={style.label}>Name</Text>
+                <TextInput
+                  style={style.input}
+                  placeholder="Your name"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </View>
+            )}
+          />
+          {errors.name && <Text style={style.error}>{errors.name.message}</Text>}
 
           {/* Email */}
-          <View style={style.inputWrapper}>
-            <Text style={style.label}>Email</Text>
-            <TextInput style={style.input} placeholder="Your email" />
-          </View>
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email address",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={style.inputWrapper}>
+                <Text style={style.label}>Email</Text>
+                <TextInput
+                  style={style.input}
+                  placeholder="Your email"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  autoCapitalize="none"
+                />
+              </View>
+            )}
+          />
+          {errors.email && <Text style={style.error}>{errors.email.message}</Text>}
 
           {/* Password */}
-          <View style={style.inputWrapper}>
-            <Text style={style.label}>Password</Text>
-            <View style={style.passwordWrapper}>
-              <TextInput
-                style={[style.input, { flex: 1 }]}
-                placeholder="Your password"
-                secureTextEntry={!showPassword}
-              />
-              <Pressable
-                onPress={() => setShowPassword(!showPassword)}
-                style={style.eyeBtn}
-              >
-                <Ionicons
-                  name={showPassword ? "eye-off" : "eye"}
-                  size={20}
-                  color="#777"
-                />
-              </Pressable>
-            </View>
-          </View>
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: "Password is required",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={style.inputWrapper}>
+                <Text style={style.label}>Password</Text>
+                <View style={style.passwordWrapper}>
+                  <TextInput
+                    style={[style.input, { flex: 1 }]}
+                    placeholder="Your password"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    secureTextEntry={!showPassword}
+                  />
+                  <Pressable
+                    onPress={() => setShowPassword(!showPassword)}
+                    style={style.eyeBtn}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-off" : "eye"}
+                      size={20}
+                      color="#777"
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            )}
+          />
+          {errors.password && <Text style={style.error}>{errors.password.message}</Text>}
 
           {/* Sign Up Button */}
-          <Pressable style={style.loginBtn}>
+          <Pressable
+            style={style.loginBtn}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text style={style.loginText}>Sign Up</Text>
           </Pressable>
 
@@ -157,6 +226,13 @@ const style = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#FAFAFA",
     paddingHorizontal: 10,
+  },
+
+  error: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: -10,
+    marginBottom: 6,
   },
 
   eyeBtn: {

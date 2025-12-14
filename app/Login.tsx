@@ -9,12 +9,27 @@ KeyboardAvoidingView,
     ScrollView,
   Platform
 } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 
 export default function Login() {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const onSubmit = (data: { email: string; password: string }) => {
+    console.log(data);
+    router.push("/(tabs)");
+  };
      const router = useRouter();
     return (
       <KeyboardAvoidingView
@@ -33,36 +48,66 @@ export default function Login() {
             {/* Header */}
             <View style={style.header}>
               <Text style={style.title}>Welcome Back 👋</Text>
-              <Text style={style.description}>Sign to your account</Text>
+              <Text style={style.description}>Sign in to your account</Text>
             </View>
 
             {/* Email */}
-            <View style={style.inputWrapper}>
-              <Text style={style.label}>Email</Text>
-              <TextInput style={style.input} placeholder="Your email" />
-            </View>
+
+            <Controller
+              control={control}
+              name="email"
+              rules={{
+                required: "Email is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={style.inputWrapper}>
+                  <Text style={style.label}>Email</Text>
+                  <TextInput
+                    style={style.input}
+                    placeholder="Your email"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </View>
+              )}
+            />
+            {errors.email && <Text style={style.error}>{errors.email.message}</Text>}
 
             {/* Password */}
-            <View style={style.inputWrapper}>
-              <Text style={style.label}>Password</Text>
-              <View style={style.passwordWrapper}>
-                <TextInput
-                  style={[style.input, { flex: 1 }]}
-                  placeholder="Your password"
-                  secureTextEntry={!showPassword}
-                />
-                <Pressable
-                  onPress={() => setShowPassword(!showPassword)}
-                  style={style.eyeBtn}
-                >
-                  <Ionicons
-                    name={showPassword ? "eye-off" : "eye"}
-                    size={20}
-                    color="#777"
-                  />
-                </Pressable>
-              </View>
-            </View>
+            <Controller
+              control={control}
+              name="password"
+              rules={{
+                required: "Password is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={style.inputWrapper}>
+                  <Text style={style.label}>Password</Text>
+                  <View style={style.passwordWrapper}>
+                    <TextInput
+                      style={[style.input, { flex: 1 }]}
+                      placeholder="Your password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      secureTextEntry={!showPassword}
+                    />
+                    <Pressable
+                      onPress={() => setShowPassword(!showPassword)}
+                      style={style.eyeBtn}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye-off" : "eye"}
+                        size={20}
+                        color="#777"
+                      />
+                    </Pressable>
+                  </View>
+                </View>
+              )}
+            />
+            {errors.password && <Text style={style.error}>{errors.password.message}</Text>}
 
             {/* Forgot Password */}
             <Pressable
@@ -83,7 +128,7 @@ export default function Login() {
             {/* Login Button */}
             <Pressable
               style={style.loginBtn}
-              onPress={() => router.push("/(tabs)")}
+              onPress={handleSubmit(onSubmit)}
             >
               <Text style={style.loginText}>Login</Text>
             </Pressable>
@@ -182,6 +227,13 @@ const style = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#FAFAFA",
     paddingHorizontal: 10,
+  },
+
+  error: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: -10,
+    marginBottom: 6,
   },
 
   eyeBtn: {
