@@ -90,7 +90,13 @@ export default function Profile() {
           <Text style={styles.optionText}>Settings</Text>
         </Pressable>
 
-        <Pressable style={[styles.optionBtn, styles.logoutBtn]}>
+        <Pressable
+          style={[styles.optionBtn, styles.logoutBtn]}
+          onPress={async () => {
+            await AsyncStorage.removeItem("UserData");
+            router.replace('/Login');
+          }}
+        >
           <Text style={[styles.optionText, { color: "#fff" }]}>Logout</Text>
         </Pressable>
       </View>
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
   },
 
   logoutBtn: {
-    backgroundColor: "#54408C",
+    backgroundColor: "#EF5A56",
     borderRadius: 10,
     alignItems: "center",
     marginTop: 20,
