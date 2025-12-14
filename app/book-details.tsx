@@ -91,10 +91,15 @@ export default function BookDetails() {
           {book.authors?.map((author, index) => (
             <Pressable
               key={index}
-              onPress={() => router.push(`/AuthorDetails?authorName=${encodeURIComponent(author.name)}`)}
+              onPress={() =>
+                router.push(
+                  `/AuthorDetails?authorName=${encodeURIComponent(author.name)}`
+                )
+              }
             >
               <Text style={styles.authorLink}>
-                {author.name}{index < (book.authors?.length || 0) - 1 ? ', ' : ''}
+                {author.name}
+                {index < (book.authors?.length || 0) - 1 ? ", " : ""}
               </Text>
             </Pressable>
           )) || <Text style={styles.author}>Unknown Author</Text>}
@@ -118,11 +123,11 @@ export default function BookDetails() {
             }}
           >
             <MaterialIcons
-              name={isFavorite(book.id) ? "favorite" : "favorite-border"}
+              name={isFavorite(book.id) ? "bookmark" : "bookmark-outline"}
               size={24}
               color={isFavorite(book.id) ? "red" : "#007AFF"}
             />
-            <Text style={styles.actionTxt}>Favorite</Text>
+            <Text style={styles.actionTxt}>Bookmark</Text>
           </Pressable>
         </View>
 

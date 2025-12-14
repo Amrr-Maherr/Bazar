@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -9,15 +9,29 @@ import {
 } from "react-native";
 import { useFavoritesStore } from '@/store/favoritesStore';
 import BookCard from '@/components/Books/BookCard';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { useRouter, useNavigation } from 'expo-router';
 
 export default function Bookmarks() {
   const { favorites, removeFromFavorites } = useFavoritesStore();
   const router = useRouter();
+  const navigation = useNavigation();
 
   const bookmarks = favorites;
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: `My Bookmarks (${bookmarks.length})`,
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 12 }}
+        >
+          <AntDesign name="arrow-left" size={24} color="#000" />
+        </Pressable>
+      ),
+    });
+  }, [bookmarks]);
   const handleRemoveBookmark = (bookId: number) => {
     Alert.alert(
       'Remove Bookmark',
@@ -65,9 +79,6 @@ export default function Bookmarks() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>
-        My Bookmarks ({bookmarks.length})
-      </Text>
       <FlatList
         data={bookmarks}
         keyExtractor={(item) => item.id.toString()}
