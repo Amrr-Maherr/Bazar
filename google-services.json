@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "147767307168",
+    "project_id": "bazar-1c041",
+    "storage_bucket": "bazar-1c041.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147767307168:android:7180370af2c1215bc752c5",
+        "android_client_info": {
+          "package_name": "com.amr.bazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147767307168-t80nhhogtd1g4qv2n69h7uv1m1icdo8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABsf9-epuXvY3-zmfyUuoXudN3q6vg8pE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147767307168-t80nhhogtd1g4qv2n69h7uv1m1icdo8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

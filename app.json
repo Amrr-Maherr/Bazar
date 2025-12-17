@@ -23,7 +23,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.amr_maher.Bazar"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.amr.bazar"
     },
     "web": {
       "bundler": "metro",
