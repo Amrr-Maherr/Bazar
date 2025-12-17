@@ -7,12 +7,14 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Alert,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signUp } from "../Api/auth";
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
@@ -29,12 +31,14 @@ export default function SignUp() {
     });
   const onSubmit = async (data: { name: string; email: string; password: string }) => {
     try {
-      const UserData = JSON.stringify(data);
+      const user = await signUp(data.email, data.password);
+      console.log('User registered:', user);
+      // Optionally store user data
+      const UserData = JSON.stringify({ name: data.name, email: user.email, uid: user.uid });
       await AsyncStorage.setItem("UserData", UserData);
-      console.log(data);
       router.push("/SuccessRegister");
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      Alert.alert('Sign Up Error', error.message);
     }
   };
     const router = useRouter();

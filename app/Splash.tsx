@@ -2,21 +2,38 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { getCurrentUser } from "../Api/auth";
 
 export default function Splash() {
   const Router = useRouter();
   useEffect(() => {
-    const checkUserData = async () => {
-      const UserData = await AsyncStorage.getItem("UserData");
-      if (UserData) {
-        Router.replace("/(tabs)");
-      } else {
+    const checkAuthState = async () => {
+      try {
+        // Check Firebase auth state first
+        const user = getCurrentUser();
+        if (user) {
+          // User is authenticated with Firebase, go to main app
+          Router.replace("/(tabs)");
+          return;
+        }
+
+        // Fallback to AsyncStorage check
+        const UserData = await AsyncStorage.getItem("UserData");
+        if (UserData) {
+          Router.replace("/(tabs)");
+        } else {
+          setTimeout(() => {
+            Router.replace("/Onboarding");
+          }, 3000);
+        }
+      } catch (error) {
+        // If there's any error, go to onboarding
         setTimeout(() => {
           Router.replace("/Onboarding");
         }, 3000);
       }
     };
-    checkUserData();
+    checkAuthState();
   }, []);
   return (
     <>

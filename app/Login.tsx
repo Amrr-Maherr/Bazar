@@ -1,19 +1,20 @@
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
-  View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  Pressable,
-    Image,
-KeyboardAvoidingView,
-    ScrollView,
-  Platform
+  View,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signIn } from "../Api/auth";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,158 +28,129 @@ export default function Login() {
       password: "",
     },
   });
-  const HandleStoreData = async (data: { email: string; password: string }) => {
+  const onSubmit = async (data: { email: string; password: string }) => {
     try {
-      const UserData = JSON.stringify(data)
+      const user = await signIn(data.email, data.password);
+      console.log('User logged in:', user);
+      // Optionally store user data
+      const UserData = JSON.stringify({ email: user.email, uid: user.uid });
       await AsyncStorage.setItem("UserData", UserData);
-    } catch (error) {
-      console.error(error)
+      router.push("/(tabs)");
+    } catch (error: any) {
+      Alert.alert('Login Error', error.message);
     }
   };
-  const onSubmit = (data: { email: string; password: string }) => {
-    console.log(data);
-    if (data) {
-      HandleStoreData(data);
-    }
-    router.push("/(tabs)");
-  };
-     const router = useRouter();
-    return (
-      <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: "#fff" }}
-        behavior={Platform.OS === "ios" ? "padding" : "padding"}
-      >
-        <View style={style.container}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {/* Back Button */}
-            <View style={style.backWrapper}>
-              <Pressable style={style.backBtn} onPress={() => router.back()}>
-                <AntDesign name="arrow-left" size={22} color="#000" />
-              </Pressable>
-            </View>
+  const router = useRouter();
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
+    >
+      <View style={style.container}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          {/* Back Button */}
+          <View style={style.backWrapper}>
+            <Pressable style={style.backBtn} onPress={() => router.back()}>
+              <AntDesign name="arrow-left" size={22} color="#000" />
+            </Pressable>
+          </View>
 
-            {/* Header */}
-            <View style={style.header}>
-              <Text style={style.title}>Welcome Back 👋</Text>
-              <Text style={style.description}>Sign in to your account</Text>
-            </View>
+          {/* Header */}
+          <View style={style.header}>
+            <Text style={style.title}>Welcome Back 👋</Text>
+            <Text style={style.description}>Sign in to your account</Text>
+          </View>
 
-            {/* Email */}
+          {/* Email */}
 
-            <Controller
-              control={control}
-              name="email"
-              rules={{
-                required: "Email is required",
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View style={style.inputWrapper}>
-                  <Text style={style.label}>Email</Text>
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              required: "Email is required",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={style.inputWrapper}>
+                <Text style={style.label}>Email</Text>
+                <TextInput
+                  style={style.input}
+                  placeholder="Your email"
+                  placeholderTextColor="#777"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </View>
+            )}
+          />
+          {errors.email && (
+            <Text style={style.error}>{errors.email.message}</Text>
+          )}
+
+          {/* Password */}
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: "Password is required",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={style.inputWrapper}>
+                <Text style={style.label}>Password</Text>
+                <View style={style.passwordWrapper}>
                   <TextInput
-                    style={style.input}
-                    placeholder="Your email"
+                    style={[style.input, { flex: 1 }]}
+                    placeholder="Your password"
                     placeholderTextColor="#777"
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    secureTextEntry={!showPassword}
                   />
-                </View>
-              )}
-            />
-            {errors.email && <Text style={style.error}>{errors.email.message}</Text>}
-
-            {/* Password */}
-            <Controller
-              control={control}
-              name="password"
-              rules={{
-                required: "Password is required",
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View style={style.inputWrapper}>
-                  <Text style={style.label}>Password</Text>
-                  <View style={style.passwordWrapper}>
-                    <TextInput
-                      style={[style.input, { flex: 1 }]}
-                      placeholder="Your password"
-                      placeholderTextColor="#777"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      secureTextEntry={!showPassword}
+                  <Pressable
+                    onPress={() => setShowPassword(!showPassword)}
+                    style={style.eyeBtn}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-off" : "eye"}
+                      size={20}
+                      color="#777"
                     />
-                    <Pressable
-                      onPress={() => setShowPassword(!showPassword)}
-                      style={style.eyeBtn}
-                    >
-                      <Ionicons
-                        name={showPassword ? "eye-off" : "eye"}
-                        size={20}
-                        color="#777"
-                      />
-                    </Pressable>
-                  </View>
+                  </Pressable>
                 </View>
-              )}
-            />
-            {errors.password && <Text style={style.error}>{errors.password.message}</Text>}
+              </View>
+            )}
+          />
+          {errors.password && (
+            <Text style={style.error}>{errors.password.message}</Text>
+          )}
 
-            {/* Forgot Password */}
-            <Pressable
-              style={style.forgotWrapper}
-              onPress={() => router.push("/ForgotPassword")}
-            >
-              <Text style={style.forgotText}>Forgot password?</Text>
+          {/* Forgot Password */}
+          <Pressable
+            style={style.forgotWrapper}
+            onPress={() => router.push("/ForgotPassword")}
+          >
+            <Text style={style.forgotText}>Forgot password?</Text>
+          </Pressable>
+
+          {/* Create Account */}
+          <View style={style.createWrapper}>
+            <Text style={style.smallText}>Don't have an account? </Text>
+            <Pressable onPress={() => router.push("/SignUp")}>
+              <Text style={style.createText}>Create Account</Text>
             </Pressable>
+          </View>
 
-            {/* Create Account */}
-            <View style={style.createWrapper}>
-              <Text style={style.smallText}>Don’t have an account? </Text>
-              <Pressable onPress={() => router.push("/SignUp")}>
-                <Text style={style.createText}>Create Account</Text>
-              </Pressable>
-            </View>
+          {/* Login Button */}
+          <Pressable style={style.loginBtn} onPress={handleSubmit(onSubmit)}>
+            <Text style={style.loginText}>Login</Text>
+          </Pressable>
 
-            {/* Login Button */}
-            <Pressable
-              style={style.loginBtn}
-              onPress={handleSubmit(onSubmit)}
-            >
-              <Text style={style.loginText}>Login</Text>
-            </Pressable>
 
-            {/* Divider: Or Continue With */}
-            <View style={style.dividerWrapper}>
-              <View style={style.line} />
-              <Text style={style.dividerText}>Or continue with</Text>
-              <View style={style.line} />
-            </View>
-
-            {/* Google Button */}
-            <Pressable style={style.googleBtn}>
-              <Image
-                source={require("../assets/images/Google_icon.png")}
-                style={{ width: 20, height: 20, marginRight: 10 }}
-              />
-              <Text style={style.socialText}>Continue with Google</Text>
-            </Pressable>
-
-            {/* Apple Button */}
-            <Pressable style={style.appleBtn}>
-              <FontAwesome
-                name="apple"
-                size={22}
-                color="black"
-                style={style.icon}
-              />
-              <Text style={[style.socialText, { color: "black" }]}>
-                Continue with Apple
-              </Text>
-            </Pressable>
-          </ScrollView>
-        </View>
-      </KeyboardAvoidingView>
-    );
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
+  );
 }
 
 const style = StyleSheet.create({
@@ -244,7 +216,7 @@ const style = StyleSheet.create({
   },
 
   error: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     marginTop: -10,
     marginBottom: 6,
@@ -300,53 +272,4 @@ const style = StyleSheet.create({
     fontWeight: "600",
   },
 
-  /* Divider */
-  dividerWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 25,
-  },
-
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#ddd",
-  },
-
-  dividerText: {
-    marginHorizontal: 10,
-    color: "#777",
-    fontSize: 14,
-  },
-
-  googleBtn: {
-    height: 48,
-    borderRadius: 48,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
-
-  appleBtn: {
-    height: 48,
-    borderRadius: 48,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  icon: {
-    marginRight: 10,
-  },
-
-  socialText: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#111",
-  },
 });

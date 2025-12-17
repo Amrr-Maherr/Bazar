@@ -6,18 +6,57 @@ import {
   Pressable,
   KeyboardAvoidingView,
   ScrollView,
-  Platform
+  Platform,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useState, useEffect } from "react";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 export default function ResetPassword() {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (params.email) {
+      setEmail(params.email as string);
+    }
+  }, [params.email]);
+
+  const handleUpdatePassword = () => {
+    if (!password.trim()) {
+      Alert.alert("Error", "Please enter a new password");
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert("Error", "Password must be at least 6 characters");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    // In a real app, you would update the password in Firebase
+    // For now, we'll just show success and redirect to login
+    Alert.alert(
+      "Success",
+      "Password updated successfully!",
+      [
+        {
+          text: "OK",
+          onPress: () => router.replace("/Login"),
+        },
+      ]
+    );
+  };
 
   return (
     <KeyboardAvoidingView
@@ -92,7 +131,7 @@ export default function ResetPassword() {
           </View>
 
           {/* Reset Button */}
-          <Pressable style={style.loginBtn}>
+          <Pressable style={style.loginBtn} onPress={handleUpdatePassword}>
             <Text style={style.loginText}>Update Password</Text>
           </Pressable>
 

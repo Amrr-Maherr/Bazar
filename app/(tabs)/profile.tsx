@@ -11,6 +11,7 @@ import { useRouter, useNavigation } from "expo-router";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from '@expo/vector-icons';
+import { signOutUser } from '../../Api/auth';
 
 export default function Profile() {
   const router = useRouter();
@@ -89,8 +90,16 @@ export default function Profile() {
         <Pressable
           style={[styles.optionBtn, styles.logoutBtn]}
           onPress={async () => {
-            await AsyncStorage.removeItem("UserData");
-            router.replace('/Login');
+            try {
+              await signOutUser();
+              await AsyncStorage.removeItem("UserData");
+              router.replace('/Login');
+            } catch (error) {
+              console.error('Logout error:', error);
+              // Still clear local data and redirect even if Firebase logout fails
+              await AsyncStorage.removeItem("UserData");
+              router.replace('/Login');
+            }
           }}
         >
           <Text style={[styles.optionText, { color: "#fff" }]}>Logout</Text>

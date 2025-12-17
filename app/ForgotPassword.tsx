@@ -7,14 +7,36 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 
+
 export default function ForgotPassword() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleResetPassword = async () => {
+    if (!email.trim()) {
+      Alert.alert("Error", "Please enter your email address");
+      return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+
+    // Navigate directly to Reset Password screen with email parameter
+    router.push({
+      pathname: "/ResetPassword",
+      params: { email: email }
+    });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -47,12 +69,20 @@ export default function ForgotPassword() {
               placeholderTextColor="#777"
               value={email}
               onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
           </View>
 
           {/* Reset Button */}
-          <Pressable style={style.loginBtn}>
-            <Text style={style.loginText}>Reset Password</Text>
+          <Pressable
+            style={[style.loginBtn, loading && style.disabledBtn]}
+            onPress={handleResetPassword}
+            disabled={loading}
+          >
+            <Text style={style.loginText}>
+              {loading ? "Sending..." : "Reset Password"}
+            </Text>
           </Pressable>
 
           {/* Back To Login */}
@@ -154,5 +184,9 @@ const style = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  disabledBtn: {
+    opacity: 0.6,
   },
 });
