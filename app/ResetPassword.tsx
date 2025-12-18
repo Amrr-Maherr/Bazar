@@ -131,7 +131,10 @@ export default function ResetPassword() {
           </View>
 
           {/* Reset Button */}
-          <Pressable style={style.loginBtn} onPress={handleUpdatePassword}>
+          <Pressable
+            style={({ pressed }) => [style.loginBtn, pressed && { opacity: 0.8 }]}
+            onPress={handleUpdatePassword}
+          >
             <Text style={style.loginText}>Update Password</Text>
           </Pressable>
 

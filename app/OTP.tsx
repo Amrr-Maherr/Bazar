@@ -1,20 +1,20 @@
+import { AntDesign } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
-  View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  Pressable,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform
+  View,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
-import { useRouter } from "expo-router";
 
 export default function OTP() {
   const router = useRouter();
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const otpInputs = Array(6).fill(0);
 
   const handleOtpChange = (value: string, index: number) => {
@@ -75,7 +75,9 @@ export default function OTP() {
           </View>
 
           {/* Verify Button */}
-          <Pressable style={style.loginBtn}>
+          <Pressable
+            style={({ pressed }) => [style.loginBtn, pressed && { opacity: 0.8 }]}
+          >
             <Text style={style.loginText}>Verify Code</Text>
           </Pressable>
 

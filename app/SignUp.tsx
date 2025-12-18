@@ -152,7 +152,7 @@ export default function SignUp() {
 
           {/* Sign Up Button */}
           <Pressable
-            style={style.loginBtn}
+            style={({ pressed }) => [style.loginBtn, pressed && { opacity: 0.8 }]}
             onPress={handleSubmit(onSubmit)}
           >
             <Text style={style.loginText}>Sign Up</Text>

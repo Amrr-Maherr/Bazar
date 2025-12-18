@@ -76,7 +76,7 @@ export default function ForgotPassword() {
 
           {/* Reset Button */}
           <Pressable
-            style={[style.loginBtn, loading && style.disabledBtn]}
+            style={({ pressed }) => [style.loginBtn, loading && style.disabledBtn, pressed && !loading && { opacity: 0.8 }]}
             onPress={handleResetPassword}
             disabled={loading}
           >
