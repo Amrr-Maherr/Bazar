@@ -27,6 +27,11 @@ export default function RootLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="home" />
       <Stack.Screen name="onboarding" />
+      <Stack.Screen name="auth/login" />
+      <Stack.Screen name="auth/register" />
+      <Stack.Screen name="auth/forgot-password" />
+      <Stack.Screen name="auth/otp-verification" />
+      <Stack.Screen name="auth/reset-password" />
     </Stack>
   );
 }
