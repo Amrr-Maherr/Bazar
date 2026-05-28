@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --font-display:
     Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
@@ -6,4 +10,40 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
   --font-serif: Georgia, 'Times New Roman', serif;
+
+  --color-gray-50: #FAFAFA;
+  --color-gray-100: #F5F5F5;
+  --color-gray-200: #E8E8E8;
+  --color-gray-300: #D6D6D6;
+  --color-gray-400: #B8B8B8;
+  --color-gray-500: #A6A6A6;
+  --color-gray-600: #7A7A7A;
+  --color-gray-700: #454545;
+  --color-gray-800: #292929;
+  --color-gray-900: #121212;
+
+  --color-purple-50: #FAF9FD;
+  --color-purple-100: #E5DEF8;
+  --color-purple-200: #CABCEF;
+  --color-purple-300: #A28CE0;
+  --color-purple-400: #7D64C3;
+  --color-purple-500: #54408C;
+  --color-purple-600: #352368;
+  --color-purple-700: #251554;
+  --color-purple-800: #10052F;
+  --color-purple-900: #09031B;
+
+  --color-blue: #3784FB;
+  --color-red: #EF5A56;
+  --color-orange: #FF8C39;
+  --color-yellow: #FBAE05;
+  --color-black: #000000;
+
+  --font-size-3xl: 40px;
+  --font-size-2xl: 32px;
+  --font-size-xl: 20px;
+  --font-size-lg: 18px;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
 }
