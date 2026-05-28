@@ -9,6 +9,9 @@ export default function Onboarding() {
       onFinish={() => {
         router.replace("/home");
       }}
+      onSignIn={() => {
+        router.replace("/auth/login");
+      }}
     />
   );
 }

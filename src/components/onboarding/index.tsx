@@ -13,9 +13,10 @@ const { width } = Dimensions.get("screen");
 
 type Props = {
   onFinish: () => void;
+  onSignIn?: () => void;
 };
 
-export function OnboardingScreen({ onFinish }: Props) {
+export function OnboardingScreen({ onFinish, onSignIn }: Props) {
   const ref = useRef<ICarouselInstance>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isLastSlide = activeIndex === onboardingData.length - 1;
@@ -58,7 +59,7 @@ export function OnboardingScreen({ onFinish }: Props) {
             </Text>
           </Pressable>
 
-          <Pressable style={styles.signInButton} onPress={onFinish}>
+          <Pressable style={styles.signInButton} onPress={onSignIn ?? onFinish}>
             <Text style={styles.signInText}>Sign In</Text>
           </Pressable>
         </View>
