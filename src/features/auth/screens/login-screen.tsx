@@ -104,8 +104,7 @@ export function LoginScreen({
           </View>
 
           <View style={styles.socialButtons}>
-            <SocialAuthButton provider="google" />
-            <SocialAuthButton provider="apple" />
+            <SocialAuthButton />
           </View>
 
           <View style={styles.footer}>

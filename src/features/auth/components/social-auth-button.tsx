@@ -1,17 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { fontFamilies, fontSizes, fontWeights } from "@/constants/typography";
 import { colors } from "@/constants/colors";
 
-type Provider = "google" | "apple";
-
 type Props = {
-  provider: Provider;
   onPress?: () => void;
 };
 
-export function SocialAuthButton({ provider, onPress }: Props) {
+export function SocialAuthButton({ onPress }: Props) {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -22,14 +18,10 @@ export function SocialAuthButton({ provider, onPress }: Props) {
       onPress={onPress}
     >
       <View style={styles.iconContainer}>
-        {provider === "google" ? (
-          <FontAwesome5 name="google" size={18} color={colors.gray[600]} />
-        ) : (
-          <Ionicons name="logo-apple" size={18} color={colors.gray[600]} />
-        )}
+        <Image source={require("@/assets/Google - Original.png")} style={styles.icon} />
       </View>
       <Text style={styles.text}>
-        Continue with {provider === "google" ? "Google" : "Apple"}
+        Continue with Google
       </Text>
     </Pressable>
   );
@@ -48,7 +40,14 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     width: 20,
+    height: 20,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    width: 18,
+    height: 18,
+    resizeMode: "contain",
   },
   text: {
     fontSize: fontSizes.base,
