@@ -1,7 +1,7 @@
 export const fontSizes = {
   "3xl": 40,
   "2xl": 32,
-  xl: 20,
+  xl: 24,
   lg: 18,
   base: 16,
   sm: 14,
