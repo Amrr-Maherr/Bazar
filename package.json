@@ -3,6 +3,8 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@expo-google-fonts/open-sans": "^0.4.2",
+    "@expo-google-fonts/roboto": "^0.4.3",
     "@expo/ui": "~56.0.14",
     "@tanstack/react-query": "^5.100.14",
     "axios": "^1.16.1",
