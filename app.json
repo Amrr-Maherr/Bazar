@@ -12,10 +12,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundColor": "#54408C",
+        "foregroundImage": "./assets/Logo/Logo.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "monochromeImage": "./assets/Logo/Logo.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.amr_maher.Bazar"
@@ -29,10 +29,16 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#54408C",
+          "resizeMode": "contain",
+          "image": "./assets/Logo/Logo.png",
           "android": {
-            "image": "./assets/images/splash-icon.png",
-            "imageWidth": 76
+            "image": "./assets/Logo/Logo.png",
+            "imageWidth": 120
+          },
+          "ios": {
+            "image": "./assets/Logo/Logo.png",
+            "imageWidth": 120
           }
         }
       ],
