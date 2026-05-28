@@ -7,7 +7,7 @@ export default function Onboarding() {
   return (
     <OnboardingScreen
       onFinish={() => {
-        router.replace("/home");
+        router.replace("/(tabs)/home");
       }}
       onSignIn={() => {
         router.replace("/auth/login");
