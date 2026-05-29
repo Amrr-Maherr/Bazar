@@ -8,6 +8,9 @@ export default function Register() {
       onSignup={() => {
         router.replace("/(tabs)/home");
       }}
+      onGuest={() => {
+        router.replace("/(tabs)/home");
+      }}
     />
   );
 }

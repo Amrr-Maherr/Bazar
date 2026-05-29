@@ -18,28 +18,43 @@ import { Button } from "@/components/ui/button";
 import { AuthHeader } from "@/features/auth/components/auth-header";
 import { SocialAuthButton } from "@/features/auth/components/social-auth-button";
 import { useLogin } from "@/features/auth/hooks/useLogin";
+import { useAnonymousLogin } from "@/features/auth/hooks/useAnonymousLogin";
 import StatusMessage from "@/shared/components/ui/StatusMessage";
 
 type Props = {
   onNavigateRegister: () => void;
   onNavigateForgotPassword: () => void;
   onLogin: () => void;
+  onGuest: () => void;
 };
 
 export default function LoginScreen({
   onNavigateRegister,
   onNavigateForgotPassword,
   onLogin,
+  onGuest,
 }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { handleLogin, loading, error, success } = useLogin();
+  const { handleGuestLogin, guestLoading } = useAnonymousLogin();
 
   const LoginFun = async () => {
     try {
       const response = await handleLogin(email, password);
       if (response) {
         onLogin();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GuestFun = async () => {
+    try {
+      const response = await handleGuestLogin();
+      if (response) {
+        onGuest();
       }
     } catch (error) {
       console.log(error);
@@ -104,6 +119,13 @@ export default function LoginScreen({
               title="Sign In"
               loading={loading}
               onPress={LoginFun}
+            />
+
+            <Button
+              title="Continue as Guest"
+              variant="outline"
+              loading={guestLoading}
+              onPress={GuestFun}
             />
           </View>
 

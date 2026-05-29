@@ -9,6 +9,9 @@ export default function Login() {
       onLogin={() => {
         router.replace("/(tabs)/home");
       }}
+      onGuest={() => {
+        router.replace("/(tabs)/home");
+      }}
     />
   );
 }
