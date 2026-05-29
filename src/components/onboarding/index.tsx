@@ -9,7 +9,7 @@ import { onboardingData } from "./data";
 import { OnboardingPagination } from "./pagination";
 import { OnboardingSlide } from "./slide";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 
 type Props = {
   onFinish: () => void;
@@ -18,14 +18,19 @@ type Props = {
 
 export function OnboardingScreen({ onFinish, onSignIn }: Props) {
   const ref = useRef<ICarouselInstance>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
+
   const isLastSlide = activeIndex === onboardingData.length - 1;
 
   const onPressNext = useCallback(() => {
     if (isLastSlide) {
       onFinish();
     } else {
-      ref.current?.scrollTo({ index: activeIndex + 1, animated: true });
+      ref.current?.scrollTo({
+        index: activeIndex + 1,
+        animated: true,
+      });
     }
   }, [activeIndex, isLastSlide, onFinish]);
 
@@ -36,13 +41,17 @@ export function OnboardingScreen({ onFinish, onSignIn }: Props) {
           <Text style={styles.skipText}>Skip</Text>
         </Pressable>
       )}
+
       <View style={styles.container}>
         <Carousel
           ref={ref}
           data={onboardingData}
           renderItem={({ item }) => <OnboardingSlide item={item} />}
           width={width}
+          height={height * 0.65}
           loop={false}
+          pagingEnabled
+          snapEnabled
           onSnapToItem={setActiveIndex}
           style={styles.carousel}
         />
@@ -71,21 +80,25 @@ export function OnboardingScreen({ onFinish, onSignIn }: Props) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFFFFF",
   },
+
   container: {
     flex: 1,
     justifyContent: "space-between",
   },
+
   carousel: {
-    flex: 1,
+    flexGrow: 0,
   },
+
   footer: {
     alignItems: "center",
     gap: 16,
     paddingHorizontal: 32,
     paddingBottom: 32,
   },
+
   button: {
     backgroundColor: colors.purple[500],
     width: "100%",
@@ -93,6 +106,14 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     alignItems: "center",
   },
+
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: fontSizes.base,
+    fontFamily: fontFamilies["roboto-bold"],
+    fontWeight: fontWeights.bold,
+  },
+
   skip: {
     position: "absolute",
     top: 26,
@@ -101,12 +122,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 8,
   },
+
   skipText: {
     fontSize: fontSizes.base,
     fontFamily: fontFamilies.roboto,
     fontWeight: fontWeights.medium,
     color: colors.gray[600],
   },
+
   signInButton: {
     backgroundColor: "transparent",
     borderWidth: 1,
@@ -116,16 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     alignItems: "center",
   },
+
   signInText: {
     fontSize: fontSizes.base,
     fontFamily: fontFamilies["roboto-bold"],
     fontWeight: fontWeights.bold,
     color: colors.gray[600],
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: fontSizes.base,
-    fontFamily: fontFamilies["roboto-bold"],
-    fontWeight: fontWeights.bold,
   },
 });
