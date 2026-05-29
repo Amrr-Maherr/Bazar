@@ -1,12 +1,13 @@
-import { RegisterScreen } from "@/features/auth/screens/register-screen";
+import SignupScreen from "@/features/auth/screens/register-screen";
 import { router } from "expo-router";
 
 export default function Register() {
   return (
-    <RegisterScreen
+    <SignupScreen
       onNavigateLogin={() => router.replace("/auth/login")}
-      onGoBack={() => router.back()}
-      onRegister={() => {}}
+      onSignup={() => {
+        router.replace("/(tabs)/home");
+      }}
     />
   );
 }
