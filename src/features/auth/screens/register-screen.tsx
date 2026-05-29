@@ -9,8 +9,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Ionicons } from "@expo/vector-icons";
-
 import { Spacing } from "@/constants/theme";
 import { fontFamilies, fontSizes, fontWeights } from "@/constants/typography";
 import { colors } from "@/constants/colors";
@@ -18,19 +16,39 @@ import { ThemedText } from "@/components/themed-text";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AuthHeader } from "@/features/auth/components/auth-header";
+import { SocialAuthButton } from "@/features/auth/components/social-auth-button";
+import { useSignup } from "@/features/auth/hooks/useSignup";
+import StatusMessage from "@/shared/components/ui/StatusMessage";
 
 type Props = {
   onNavigateLogin: () => void;
-  onGoBack?: () => void;
-  onRegister: () => void;
+  onSignup: () => void;
 };
 
-export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister }: Props) {
+export default function SignupScreen({
+  onNavigateLogin,
+  onSignup,
+}: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { handleSignup, loading, error, success } = useSignup();
+
+  const SignupFun = async () => {
+    try {
+      if (password !== confirmPassword) {
+        return;
+      }
+
+      const response = await handleSignup(email, password);
+      if (response) {
+        onSignup();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.gray[50] }]}>
@@ -43,11 +61,6 @@ export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister }: Props)
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {onGoBack && (
-            <Pressable onPress={onGoBack} style={styles.backButton} hitSlop={8}>
-              <Ionicons name="chevron-back" size={24} color={colors.black} />
-            </Pressable>
-          )}
           <View style={styles.header}>
             <AuthHeader
               title="Create Account"
@@ -93,11 +106,34 @@ export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister }: Props)
               autoComplete="new-password"
             />
 
+            <StatusMessage
+              message={error || success}
+              type={error ? "error" : "success"}
+            />
+
             <Button
               title="Sign Up"
               loading={loading}
-              onPress={onRegister}
+              onPress={SignupFun}
             />
+          </View>
+
+          <View style={styles.divider}>
+            <View
+              style={[styles.dividerLine, { backgroundColor: colors.gray[200] }]}
+            />
+            <ThemedText
+              style={[styles.dividerText, { color: colors.gray[600] }]}
+            >
+              Or continue with
+            </ThemedText>
+            <View
+              style={[styles.dividerLine, { backgroundColor: colors.gray[200] }]}
+            />
+          </View>
+
+          <View style={styles.socialButtons}>
+            <SocialAuthButton />
           </View>
 
           <View style={styles.footer}>
@@ -131,21 +167,36 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.six,
     paddingBottom: Spacing.five,
   },
-  backButton: {
-    marginBottom: Spacing.three,
-  },
   header: {
     marginBottom: Spacing.five,
   },
   form: {
     gap: Spacing.three,
-    marginBottom: "auto",
+    marginBottom: Spacing.five,
+  },
+  divider: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.three,
+    marginBottom: Spacing.four,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+  },
+  dividerText: {
+    fontSize: fontSizes.sm,
+    fontFamily: fontFamilies.roboto,
+  },
+  socialButtons: {
+    gap: Spacing.three,
+    marginBottom: Spacing.five,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: Spacing.five,
+    marginTop: "auto",
   },
   footerText: {
     fontSize: fontSizes.sm,
