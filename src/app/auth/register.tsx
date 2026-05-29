@@ -7,6 +7,9 @@ export default function Register() {
       onNavigateLogin={() => router.replace("/auth/login")}
       onGoBack={() => router.back()}
       onRegister={() => {}}
+      onGuest={() => {
+        router.replace("/(tabs)/home");
+      }}
     />
   );
 }

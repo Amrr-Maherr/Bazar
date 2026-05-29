@@ -18,19 +18,33 @@ import { ThemedText } from "@/components/themed-text";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AuthHeader } from "@/features/auth/components/auth-header";
+import { useAnonymousLogin } from "@/features/auth/hooks/useAnonymousLogin";
 
 type Props = {
   onNavigateLogin: () => void;
   onGoBack?: () => void;
   onRegister: () => void;
+  onGuest: () => void;
 };
 
-export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister }: Props) {
+export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister, onGuest }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { handleGuestLogin, guestLoading } = useAnonymousLogin();
+
+  const GuestFun = async () => {
+    try {
+      const response = await handleGuestLogin();
+      if (response) {
+        onGuest();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.gray[50] }]}>
@@ -97,6 +111,13 @@ export function RegisterScreen({ onNavigateLogin, onGoBack, onRegister }: Props)
               title="Sign Up"
               loading={loading}
               onPress={onRegister}
+            />
+
+            <Button
+              title="Continue as Guest"
+              variant="outline"
+              loading={guestLoading}
+              onPress={GuestFun}
             />
           </View>
 
