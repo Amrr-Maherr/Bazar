@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AuthHeader } from "@/features/auth/components/auth-header";
 import { SocialAuthButton } from "@/features/auth/components/social-auth-button";
+import { useLogin } from "@/features/auth/hooks/useLogin";
+import StatusMessage from "@/shared/components/ui/StatusMessage";
 
 type Props = {
   onNavigateRegister: () => void;
@@ -24,14 +26,25 @@ type Props = {
   onLogin: () => void;
 };
 
-export function LoginScreen({
+export default function LoginScreen({
   onNavigateRegister,
   onNavigateForgotPassword,
   onLogin,
 }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { handleLogin, loading, error, success } = useLogin();
+
+  const LoginFun = async () => {
+    try {
+      const response = await handleLogin(email, password);
+      if (response) {
+        onLogin();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.gray[50] }]}>
@@ -71,6 +84,11 @@ export function LoginScreen({
               autoComplete="current-password"
             />
 
+            <StatusMessage
+              message={error || success}
+              type={error ? "error" : "success"}
+            />
+
             <Pressable
               onPress={onNavigateForgotPassword}
               style={styles.forgotPassword}
@@ -85,7 +103,7 @@ export function LoginScreen({
             <Button
               title="Sign In"
               loading={loading}
-              onPress={onLogin}
+              onPress={LoginFun}
             />
           </View>
 

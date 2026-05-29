@@ -6,15 +6,25 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import { fontFamilies, fontSizes, fontWeights } from "@/constants/typography";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Splash() {
   const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
   useEffect(() => {
+    if (loading) return;
+
     const timer = setTimeout(() => {
-      router.replace("/onboarding");
+      if (isAuthenticated) {
+        router.replace("/(tabs)/home");
+      } else {
+        router.replace("/onboarding");
+      }
     }, 1500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [loading, isAuthenticated, router]);
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
