@@ -1,4 +1,4 @@
-import { LoginScreen } from "@/features/auth/screens/login-screen";
+import LoginScreen from "@/features/auth/screens/login-screen";
 import { router } from "expo-router";
 
 export default function Login() {
@@ -6,7 +6,9 @@ export default function Login() {
     <LoginScreen
       onNavigateRegister={() => router.replace("/auth/register")}
       onNavigateForgotPassword={() => router.push("/auth/forgot-password")}
-      onLogin={() => {}}
+      onLogin={() => {
+        router.replace("/(tabs)/home");
+      }}
     />
   );
 }

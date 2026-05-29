@@ -9,12 +9,14 @@ import { fontFamilies, fontSizes, fontWeights } from "@/constants/typography";
 
 export default function Splash() {
   const router = useRouter();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace("/onboarding");
     }, 1500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [router]);
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
