@@ -1,5 +1,5 @@
 import api from "@/services/api/api";
-import type { TrendingResponse, SubjectResponse, SearchResponse } from "@/types/openlibrary";
+import type { TrendingResponse, SubjectResponse, SearchResponse, WorkDetails, EditionsResponse, AuthorDetails } from "@/types/openlibrary";
 
 const COVER_BASE = "https://covers.openlibrary.org/b/id";
 
@@ -20,6 +20,22 @@ export async function getSubjectBooks(subject: string, limit = 20): Promise<Subj
 
 export async function getNewReleases(limit = 10): Promise<SearchResponse> {
   const { data } = await api.get(`/search.json?q=subject:fiction&sort=new&limit=${limit}`);
+  return data;
+}
+
+export async function getWorkDetails(workId: string): Promise<WorkDetails> {
+  const { data } = await api.get(`/works/${workId}.json`);
+  return data;
+}
+
+export async function getWorkEditions(workId: string, limit = 10): Promise<EditionsResponse> {
+  const { data } = await api.get(`/works/${workId}/editions.json?limit=${limit}`);
+  return data;
+}
+
+export async function getAuthorDetails(authorKey: string): Promise<AuthorDetails> {
+  const key = authorKey.startsWith("/") ? authorKey.slice(1) : authorKey;
+  const { data } = await api.get(`/${key}.json`);
   return data;
 }
 

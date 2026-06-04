@@ -1,19 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-import { colors } from "@/constants/colors";
+import { BookDetailsScreen } from "@/features/books/screens/book-details-screen";
 
-export default function BookDetails() {
-  return (
-    <View style={[styles.container, { backgroundColor: colors.gray[50] }]}>
-      <Text>Book Details</Text>
-    </View>
-  );
+export default function BookDetailsRoute() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+
+  if (!id) return null;
+
+  return <BookDetailsScreen workId={id} />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
