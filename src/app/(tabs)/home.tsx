@@ -19,11 +19,11 @@ export default function Home() {
 
   const handleBookPress = useCallback((book: { key: string }) => {
     const workId = book.key.replace("/works/", "");
-    router.push({ pathname: "/book/[id]", params: { id: workId } });
+    router.push({ pathname: "/(tabs)/book/[id]", params: { id: workId } });
   }, []);
 
   const handleCategoryPress = useCallback((category: string) => {
-    router.push({ pathname: "/category/[name]", params: { name: category } });
+    router.push({ pathname: "/(tabs)/category/[name]", params: { name: category } });
   }, []);
 
   const trendingData = useMemo(() => trendingBooks ?? [], [trendingBooks]);

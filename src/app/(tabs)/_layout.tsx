@@ -63,6 +63,14 @@ export default function TabsLayout() {
       <Tabs.Screen name="search" options={{ title: "Search" }} />
       <Tabs.Screen name="favorites" options={{ title: "Favorites" }} />
       <Tabs.Screen name="profile" options={{ title: "Profile" }} />
+      <Tabs.Screen
+        name="book/[id]"
+        options={{ headerShown: true, href: null }}
+      />
+      <Tabs.Screen
+        name="category/[name]"
+        options={{ headerShown: true, href: null }}
+      />
     </Tabs>
   );
 }

@@ -22,7 +22,7 @@ export function CategoryBooksScreen({ categoryName }: Props) {
 
   const handleBookPress = useCallback((book: OpenLibraryWork) => {
     const workId = book.key.replace("/works/", "");
-    router.push({ pathname: "/book/[id]", params: { id: workId } });
+    router.push({ pathname: "/(tabs)/book/[id]", params: { id: workId } });
   }, []);
 
   const handleBack = useCallback(() => {

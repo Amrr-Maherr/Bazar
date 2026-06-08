@@ -44,8 +44,6 @@ export default function RootLayout() {
         <Stack.Screen name="auth/forgot-password" />
         <Stack.Screen name="auth/otp-verification" />
         <Stack.Screen name="auth/reset-password" />
-        <Stack.Screen name="book/[id]" />
-        <Stack.Screen name="category/[name]" />
       </Stack>
     </QueryClientProvider>
   );
