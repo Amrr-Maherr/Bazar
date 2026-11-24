@@ -1,8 +1,61 @@
-# Welcome to your Expo app 👋
+# Bazar
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile bookstore app built with React Native and Expo. Browse trending books and new releases from the OpenLibrary API, explore curated categories, and open rich book detail pages, with Firebase email/password authentication and a guest mode.
 
-## Get started
+> Screenshots below are captured from the Expo web preview, so they can differ slightly from the native iOS/Android rendering.
+
+---
+
+## Core Features
+
+- **Onboarding & splash** — branded splash screen followed by a 3-slide onboarding carousel (reanimated carousel) with skip/next navigation.
+
+- **Authentication** — Firebase Auth email/password sign-in and sign-up with inline validation and status feedback, anonymous guest login, and a forgot-password → OTP verification → reset-password flow. A Google sign-in button is present as UI.
+
+  <img src="docs/screenshots/login.svg" alt="Bazar sign-in screen with guest option" width="390">
+
+  <img src="docs/screenshots/register.svg" alt="Bazar create account screen" width="390">
+
+- **Home** — hero carousel of trending books, a category shortcut row (Fiction, Fantasy, Romance, Sci-Fi, Mystery, History, Biography, Self Help), plus horizontal Trending Now and New Releases lists.
+
+  <img src="docs/screenshots/home.svg" alt="Bazar home screen with trending books carousel and categories" width="390">
+
+- **Category browsing** — each category opens a grid of up to 50 books for that subject with a branded header.
+
+  <img src="docs/screenshots/category-fiction.svg" alt="Fiction category grid of books" width="390">
+
+- **Book details** — cover, title, author and first-publish year, expandable description, subject chips, additional subjects (places, people, times), book metadata, external links, and an editions section.
+
+  <img src="docs/screenshots/book-details.svg" alt="Book details page for Atomic Habits" width="390">
+
+- **Password recovery** — forgot-password, OTP verification, and reset-password screens.
+
+  <img src="docs/screenshots/forgot-password.svg" alt="Forgot password screen" width="390">
+
+- **Data layer** — OpenLibrary REST API (trending, subjects, search, works, editions, authors) through a shared Axios client, cached with TanStack Query (retry, stale-time, garbage-collection tuned).
+- **Navigation** — file-based routing with expo-router (typed routes): stack flow for splash → onboarding → auth, and bottom tabs for Home, Search, Favorites, Profile.
+- **Theming** — custom color, spacing and typography token system (Open Sans / Roboto) with light/dark color-scheme hooks.
+
+---
+
+## Tech Stack
+
+| Category            | Technology                                             |
+| ------------------- | ------------------------------------------------------ |
+| **Framework**       | React Native 0.85 + Expo SDK 56                        |
+| **Language**        | TypeScript 6                                           |
+| **Routing**         | expo-router 6 (file-based, typed routes, React Compiler experiment) |
+| **Data Fetching**   | Axios + TanStack Query 5                               |
+| **Backend / Auth**  | Firebase Auth 12 (email/password, anonymous)           |
+| **API**             | OpenLibrary (openlibrary.org REST API + cover images)  |
+| **UI / Animation**  | React Native Reanimated 4, reanimated-carousel, expo-image, expo-glass-effect, @expo/ui |
+| **Fonts**           | @expo-google-fonts (Open Sans, Roboto) via expo-font   |
+| **Build**           | EAS Build (`eas.json`), expo-dev-client                |
+| **Linting**         | ESLint 9 with eslint-config-expo                       |
+
+---
+
+## Getting Started
 
 1. Install dependencies
 
@@ -10,47 +63,27 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Create a Firebase project with Email/Password and Anonymous sign-in enabled, and set the web API key:
+
+   ```bash
+   export EXPO_PUBLIC_FIREBASE_API_KEY=your-api-key
+   ```
+
+3. Start the app
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+   Then open it in Expo Go, a development build, or the web preview (`npm run web`).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Roadmap
 
-## Get a fresh project
+The following tabs currently ship as placeholder UI and are next in line:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Search** — tab exists, search functionality not implemented yet.
+- **Favorites** — empty-state screen; no persistence yet.
+- **Profile** — static menu UI (edit profile, notifications, privacy, appearance, about, help); actions not wired yet.
+- **Google sign-in** — button UI present, provider flow not wired.
